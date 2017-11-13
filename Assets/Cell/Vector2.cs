@@ -59,6 +59,32 @@ namespace Cell {
 			return x * other.x + y * other.y;
 		}
 
+		public Vector2 Min(Vector2 other) {
+			return new Vector2 (
+				x < other.x ? x : other.x,
+				y < other.y ? y : other.y
+			);
+		}
+
+		public Vector2 Max(Vector2 other) {
+			return new Vector2 (
+				x > other.x ? x : other.x,
+				y > other.y ? y : other.y
+			);
+		}
+
+		public double Radians(Vector2 other) {
+			return Math.Acos(Dot(other));
+		}
+
+		public Vector2 Perpendicular() {
+			return new Vector2 (y, -x);
+		}
+
+		public Vector2 CounterPerpendicular() {
+			return new Vector2 (-y, x);
+		}
+
 		public static Vector2 down = new Vector2(0, -1);
 		public static Vector2 left = new Vector2(-1, 0);
 		public static Vector2 one = new Vector2(1, 1);
@@ -66,9 +92,7 @@ namespace Cell {
 		public static Vector2 up = new Vector2(0, 1);
 		public static Vector2 zero = new Vector2(0, 0);
 
-		public static double Radians(Vector2 a, Vector2 b) {
-			return Math.Acos(a.Dot(b));
-		}
+		public const double deg2rad = (Math.PI * 2) / 360;
 
 	}
 
