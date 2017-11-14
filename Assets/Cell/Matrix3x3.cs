@@ -8,6 +8,8 @@ namespace Cell {
 		public readonly double[,] elements;
 
 		public Matrix3x3(double[,] elements) {
+			if (elements.GetLength(0) != 3 || elements.GetLength(1) != 3)
+				throw new ArgumentException("Elements array must be 3x3.", "elements");
 			this.elements = elements;
 		}
 
@@ -17,12 +19,28 @@ namespace Cell {
 			}
 		}
 
+		public override string ToString() {
+			var s = "Matrix3v3 {\n\t";
+			var width = elements.GetLength(0);
+			var height = elements.GetLength(1);
+			for (var y = 0; y < height; y++) {
+				for (var x = 0; x < width; x++) {
+					s += elements[x, y];
+					if (x + 1 < width)
+						s += ",\t";
+					else if (y + 1 < height)
+						s += ",\n\t";
+				}
+			}
+			return s + "\n}";
+		}
+
 		public override bool Equals(object obj) {
 			if (obj == null || obj.GetType() != GetType())
 				return false;
 			var other = (Matrix3x3) obj;
 			for (var x = 0; x < 3; x++) {
-				for (var y = 0; x < 3; y++) {
+				for (var y = 0; y < 3; y++) {
 					if (other [x, y] != this [x, y])
 						return false;
 				}
@@ -38,6 +56,18 @@ namespace Cell {
 				}
 			}
 			return hash;
+		}
+
+		public double[] ToArray() {
+			var width = elements.GetLength(0);
+			var height = elements.GetLength(1);
+			var arr = new double[width * height];
+			for (var y = 0; y < height; y++) {
+				for (var x = 0; x < width; x++) {
+					arr[x * width + y] = elements[x, y];
+				}
+			}
+			return arr;
 		}
 
 		public Matrix3x3 Transpose() {
@@ -130,6 +160,13 @@ namespace Cell {
 
 		public static Matrix3x3 Scale(Vector2 scale) {
 			return Scale (scale.x, scale.y);
+		}
+
+		public static Matrix3x3 TRS(Vector2 offset, double radians, Vector2 scale) {
+			var t = Matrix3x3.Translate(offset);
+			var r = Matrix3x3.Rotate(radians);
+			var s = Matrix3x3.Scale(scale);
+			return t * r * s;
 		}
 
 		public static Matrix3x3 identity = new Matrix3x3(new double[,] {

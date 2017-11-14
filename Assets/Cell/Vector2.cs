@@ -50,6 +50,10 @@ namespace Cell {
 				.HashValue(y);
 		}
 
+		public override string ToString() {
+			return string.Format("Vector2({0}, {1})", x, y);
+		}
+
 		public Vector2 Normalized() {
 			var m = magnitude;
 			return new Vector2(x / m, y / m);
@@ -75,6 +79,10 @@ namespace Cell {
 
 		public double Radians(Vector2 other) {
 			return Math.Acos(Dot(other));
+		}
+
+		public Vector2 Floor() {
+			return new Vector2(Math.Floor(x), Math.Floor(y));
 		}
 
 		public Vector2 Perpendicular() {
