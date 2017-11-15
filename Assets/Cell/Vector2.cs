@@ -93,12 +93,14 @@ namespace Cell {
 			return new Vector2 (-y, x);
 		}
 
-		public static Vector2 down = new Vector2(0, -1);
-		public static Vector2 left = new Vector2(-1, 0);
-		public static Vector2 one = new Vector2(1, 1);
 		public static Vector2 right = new Vector2(1, 0);
+		public static Vector2 left = new Vector2(-1, 0);
 		public static Vector2 up = new Vector2(0, 1);
+		public static Vector2 down = new Vector2(0, -1);
 		public static Vector2 zero = new Vector2(0, 0);
+		public static Vector2 one = new Vector2(1, 1);
+		public static Vector2 positiveInfinity = new Vector2(double.PositiveInfinity, double.PositiveInfinity);
+		public static Vector2 negativeInfinity = new Vector2(double.NegativeInfinity, double.NegativeInfinity);
 
 		public const double deg2rad = (Math.PI * 2) / 360;
 
