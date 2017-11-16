@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Cell {
 
-	public class Body {
+	public class MeshBody : IBody {
 		public Mesh2 source;
 		public Vector2 position;
 		public double rotation;
@@ -31,12 +31,19 @@ namespace Cell {
 			for (var i = 0; i < mesh.vertices.Length; i++)
 				mesh.vertices[i] = _matrix * source.vertices[i];
 
-
-
 			mesh.Update();
 		}
 
-		public Collision CheckCollision(Body other) {
+		public Collision CheckCollision(IBody other) {
+			if (other is MeshBody)
+				return CheckMeshCollision(other as MeshBody);
+			else if (other is CircleBody)
+				return CheckCircleCollision(other as CircleBody);
+			else
+				return null;
+		}
+
+		public Collision CheckMeshCollision(MeshBody other) {
 			var axes = new Vector2[_mesh.surfaceAxes.Count + other.mesh.surfaceAxes.Count];
 			var pushes = new Vector2[axes.Length];
 			
@@ -70,22 +77,6 @@ namespace Cell {
 				min = min * -1;
 
 			return new Collision(other, min);
-		}
-
-		IsSeperateResult IsSeparate(Vector2 axis, Body other) {
-			var res = new IsSeperateResult();
-			var a = Project(_mesh, axis);
-			var b = Project(other.mesh, axis);
-
-			Draw.Line(axis * b.min, axis * b.max, UnityEngine.Color.cyan);
-			Draw.Line(axis * a.min, axis * a.max, UnityEngine.Color.magenta);
-
-			if (a.max >= b.min && b.max >= a.min) {
-				res.push = axis * Math.Min(b.max - a.min, a.max - b.min);
-			} else {
-				res.isSeparate = true;
-			}
-			return res;
 		}
 
 		Line Project(Mesh2 mesh, Vector2 axis) {

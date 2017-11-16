@@ -10,13 +10,13 @@ public class CollisionTest : MonoBehaviour {
 	public double bRotationRate;
 	public UnityEngine.Vector2 bScale = UnityEngine.Vector2.one;
 
-	Body a;
-	Body b;
+	MeshBody a;
+	MeshBody b;
 
 	void Start () {
-		a = new Body();
+		a = new MeshBody();
 		a.source = Mesh2.square.Clone();
-		b = new Body();
+		b = new MeshBody();
 		b.source = Mesh2.square.Clone();
 	}
 	
