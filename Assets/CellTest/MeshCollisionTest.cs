@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cell;
 
-public class CollisionTest : MonoBehaviour {
+public class MeshCollisionTest : MonoBehaviour {
 	new public Camera camera;
 	public double aRotationRate;
 	public UnityEngine.Vector2 aScale = UnityEngine.Vector2.one;
@@ -32,7 +32,7 @@ public class CollisionTest : MonoBehaviour {
 
 		var collision = b.CheckCollision(a);
 		if (collision != null) {
-			b.position += collision.push;
+			b.position += collision.overlap;
 			b.Update();
 		}
 

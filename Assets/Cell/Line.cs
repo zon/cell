@@ -8,6 +8,11 @@ namespace Cell {
 		public double min;
 		public double max;
 
+		public Line(double min, double max) {
+			this.min = min;
+			this.max = max;
+		}
+
 		public double Overlap(Line other) {
 			if (max >= other.min && other.max >= min) {
 				return Math.Min(other.max - min, max - other.min);

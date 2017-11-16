@@ -7,9 +7,9 @@ namespace Cell {
 
 	public class MeshBody : IBody {
 		public Mesh2 source;
-		public Vector2 position;
-		public double rotation;
-		public Vector2 scale = Vector2.one;
+		public Vector2 position { get; set; }
+		public double rotation { get; set; }
+		public Vector2 scale { get; set; }
 
 		Matrix3x3 _matrix;
 		Mesh2 _mesh = new Mesh2();
@@ -35,55 +35,18 @@ namespace Cell {
 		}
 
 		public Collision CheckCollision(IBody other) {
-			if (other is MeshBody)
-				return CheckMeshCollision(other as MeshBody);
-			else if (other is CircleBody)
-				return CheckCircleCollision(other as CircleBody);
-			else
-				return null;
+			return Collision.CheckAxes (this, other);
 		}
 
-		public Collision CheckMeshCollision(MeshBody other) {
-			var axes = new Vector2[_mesh.surfaceAxes.Count + other.mesh.surfaceAxes.Count];
-			var pushes = new Vector2[axes.Length];
-			
-			var i = 0;
-			foreach (var axis in _mesh.surfaceAxes)
-				axes[i++] = axis;
-			foreach (var axis in other.mesh.surfaceAxes)
-				axes[i++] = axis;
-
-			for (var a = 0; a < axes.Length; a++) {
-				var test = IsSeparate(axes[a], other);
-				if (test.isSeparate)
-					return null;
-				else
-					pushes[a] = test.push;
-			}
-
-			var min = Vector2.zero;
-			var minLength = double.PositiveInfinity;
-			for (var p = 0; p < pushes.Length; p++) {
-				var push = pushes[p];
-				var length = push.Dot(push);
-				if (length < minLength) {
-					minLength = length;
-					min = push;
-				}
-			}
-
-			var delta = other.position - position;
-			if (delta.Dot(min) > 0)
-				min = min * -1;
-
-			return new Collision(other, min);
+		public HashSet<Vector2> GetSurfaceAxes() {
+			return mesh.surfaceAxes;
 		}
 
-		Line Project(Mesh2 mesh, Vector2 axis) {
+		public Line Project(Vector2 axis) {
 			var min = double.PositiveInfinity;
 			var max = double.NegativeInfinity;
-			for (var v = 0; v < mesh.vertices.Length; v++) {
-				var projection = mesh.vertices[v].Dot(axis);
+			for (var v = 0; v < _mesh.vertices.Length; v++) {
+				var projection = _mesh.vertices[v].Dot(axis);
 				min = Math.Min(min, projection);
 				max = Math.Max(max, projection);
 			}
@@ -91,16 +54,6 @@ namespace Cell {
 			line.min = min;
 			line.max = max;
 			return line;
-		}
-
-		struct Line {
-			public double min;
-			public double max;
-		}
-
-		struct IsSeperateResult {
-			public bool isSeparate;
-			public Vector2 push;
 		}
 
 	}

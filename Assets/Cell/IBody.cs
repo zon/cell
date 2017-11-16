@@ -12,6 +12,7 @@ namespace Cell {
 
 		Collision CheckCollision(IBody other);
 
+		HashSet<Vector2> GetSurfaceAxes ();
 		Line Project(Vector2 axis);
 
 	}
