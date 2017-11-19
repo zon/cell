@@ -7,29 +7,24 @@ namespace Cell {
 
 	public class MeshBody : IBody {
 		public Mesh2 source;
-		public Vector2 position { get; set; }
-		public double rotation { get; set; }
-		public Vector2 scale { get; set; }
 
-		Matrix3x3 _matrix;
-		Mesh2 _mesh = new Mesh2();
+		public Transform transform { get; private set; }
+		public Matrix3x3 matrix { get; private set; }
+		public Mesh2 mesh { get; private set; }
 
-		public Matrix3x3 matrix {
-			get { return _matrix; }
-		}
-
-		public Mesh2 mesh {
-			get { return _mesh; }
+		public MeshBody() {
+			transform = new Transform();
+			mesh = new Mesh2();
 		}
 
 		public void Update() {
-			_matrix = Matrix3x3.TRS(position, rotation, scale);
+			matrix = transform.GetMatrix();
 
 			if (mesh.vertices.Length != source.vertices.Length)
 				mesh.vertices = new Vector2[source.vertices.Length];
 
 			for (var i = 0; i < mesh.vertices.Length; i++)
-				mesh.vertices[i] = _matrix * source.vertices[i];
+				mesh.vertices[i] = matrix * source.vertices[i];
 
 			mesh.Update();
 		}
@@ -45,8 +40,8 @@ namespace Cell {
 		public Line Project(Vector2 axis) {
 			var min = double.PositiveInfinity;
 			var max = double.NegativeInfinity;
-			for (var v = 0; v < _mesh.vertices.Length; v++) {
-				var projection = _mesh.vertices[v].Dot(axis);
+			for (var v = 0; v < mesh.vertices.Length; v++) {
+				var projection = mesh.vertices[v].Dot(axis);
 				min = Math.Min(min, projection);
 				max = Math.Max(max, projection);
 			}

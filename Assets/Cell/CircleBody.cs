@@ -6,14 +6,16 @@ namespace Cell {
 
 	public class CircleBody : IBody {
 		public double radius = 0.5;
-		public Vector2 position { get; set; }
-		public double rotation { get; set; }
-		public Vector2 scale { get; set; }
+		public Transform transform { get; private set; }
 
 		static HashSet<Vector2> surfaceAxes = new HashSet<Vector2>();
 
 		public double scaleRadius {
-			get { return radius * Math.Max(scale.x, scale.y); }
+			get { return radius * Math.Max(transform.scale.x, transform.scale.y); }
+		}
+
+		public CircleBody() {
+			transform = new Transform();
 		}
 
 		public void Update() {}
@@ -32,7 +34,7 @@ namespace Cell {
 		}
 
 		public Line Project(Vector2 axis) {
-			var p = position.Dot(axis);
+			var p = transform.position.Dot(axis);
 			var r = scaleRadius;
 			return new Line(p - r, p + r);
 		}

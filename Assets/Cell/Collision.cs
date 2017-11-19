@@ -39,7 +39,7 @@ namespace Cell {
 				}
 			}
 
-			var delta = bBody.position - aBody.position;
+			var delta = bBody.transform.position - aBody.transform.position;
 			if (delta.Dot (minOverlapVector) > 0)
 				minOverlapVector *= -1;
 
@@ -47,7 +47,7 @@ namespace Cell {
 		}
 
 		public static Collision CheckRadius(CircleBody aBody, CircleBody bBody) {
-			var delta = bBody.position - aBody.position;
+			var delta = bBody.transform.position - aBody.transform.position;
 			var min = bBody.radius + aBody.radius;
 			if (delta.sqrMagnitude < min * min) {
 				return new Collision(bBody, delta.Normalized() * (min - delta.magnitude));

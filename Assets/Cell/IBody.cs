@@ -4,9 +4,7 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public interface IBody {
-		Vector2 position { get; set; }
-		double rotation { get; set; }
-		Vector2 scale { get; set; }
+		Transform transform { get; }
 
 		void Update();
 
