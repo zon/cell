@@ -10,8 +10,8 @@ namespace Cell {
 
 		Collision CheckCollision(IBody other);
 
-		HashSet<Vector2> GetSurfaceAxes ();
-		Line Project(Vector2 axis);
+		HashSet<Vec2> GetSurfaceAxes ();
+		Line Project(Vec2 axis);
 
 	}
 

@@ -20,7 +20,7 @@ public class CircleCollisionTest : MonoBehaviour {
 	}
 
 	void Update () {
-		a.transform.rotation += aRotationRate * Cell.Vector2.deg2rad * Time.deltaTime;
+		a.transform.rotation *= new Quat(Vec3.up, aRotationRate) * Time.deltaTime;
 		a.transform.scale = aScale.ToCell();
 		a.Update();
 

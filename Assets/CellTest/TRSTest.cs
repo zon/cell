@@ -22,7 +22,7 @@ public class TRSTest : MonoBehaviour {
 		var t = (Time.time % translationDuration) / translationDuration;
 
 		body.transform.position = UnityEngine.Vector2.Lerp(minPosition, maxPosition, t).ToCell();
-		body.transform.rotation += (rotationRate / translationDuration) * Cell.Vector2.deg2rad * Time.deltaTime;
+		body.transform.rotation *= new Quat(Vec3.up, (rotationRate / translationDuration)) * Time.deltaTime;
 		body.transform.scale = UnityEngine.Vector2.Lerp(minScale, maxScale, t).ToCell();
 
 		body.Update();

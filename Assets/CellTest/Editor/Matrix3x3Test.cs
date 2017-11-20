@@ -46,13 +46,28 @@ public class Matrix3x3Test {
 	[Test]
 	public void Rotate() {
 		var degrees = 30f;
-		var radians = degrees * Cell.Vector2.deg2rad;
+		var radians = degrees * Cell.Vec2.deg2rad;
 		var point = new UnityEngine.Vector3 (5, 3, 0);
 
 		var cell = Matrix3x3.Rotate (radians);
 		var cv = cell * point.XY ().ToCell ();
 
-		var unity = Matrix4x4.Rotate (Quaternion.Euler (0, 0, degrees));
+		var unity = Matrix4x4.Rotate (UnityEngine.Quaternion.Euler (0, 0, degrees));
+		var uv = unity.MultiplyPoint (point);
+
+		Assert.AreEqual (cv.ToUnity (), uv.XY ());
+	}
+
+	[Test]
+	public void QuatRotate() {
+		var degrees = 30f;
+		var quat = new Quat(Vec3.up, degrees);
+		var point = new UnityEngine.Vector3 (5, 3, 0);
+
+		var cell = Matrix3x3.Rotate (quat);
+		var cv = cell * point.XY ().ToCell ();
+
+		var unity = Matrix4x4.Rotate (Quaternion.AngleAxis(degrees, Vector3.up));
 		var uv = unity.MultiplyPoint (point);
 
 		Assert.AreEqual (cv.ToUnity (), uv.XY ());
@@ -76,11 +91,11 @@ public class Matrix3x3Test {
 	public void TRS() {
 		var offset = new UnityEngine.Vector3(887, 431, 0);
 		var degrees = 83f;
-		var radians = degrees * Cell.Vector2.deg2rad;
-		var scale = new UnityEngine.Vector3(2, 3, 1);
-		var point = new UnityEngine.Vector3(409, 701);
+		var quat = new Quat(Vec3.up, degrees);
+		var scale = new Vector3(2, 3, 1);
+		var point = new Vector3(409, 701);
 
-		var cell = Matrix3x3.TRS(offset.XY().ToCell(), radians, scale.XY().ToCell());
+		var cell = Matrix3x3.TRS(offset.XY().ToCell(), quat, scale.XY().ToCell());
 		var cv = cell * point.XY().ToCell();
 
 		var unity = Matrix4x4.TRS(offset, Quaternion.Euler(0, 0, degrees), scale);

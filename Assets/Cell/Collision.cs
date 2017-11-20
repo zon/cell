@@ -5,18 +5,18 @@ namespace Cell {
 
 	public class Collision {
 		public readonly IBody body;
-		public readonly Vector2 overlap;
+		public readonly Vec2 overlap;
 
-		public Collision(IBody body, Vector2 overlap) {
+		public Collision(IBody body, Vec2 overlap) {
 			this.body = body;
 			this.overlap = overlap;
 		}
 
 		public static Collision CheckAxes(IBody aBody, IBody bBody) {
 			var minOverlap = double.PositiveInfinity;
-			var minOverlapVector = Vector2.zero;
+			var minOverlapVector = Vec2.zero;
 
-			var axes = new HashSet<Vector2> ();
+			var axes = new HashSet<Vec2> ();
 			axes.UnionWith (aBody.GetSurfaceAxes ());
 			axes.UnionWith (bBody.GetSurfaceAxes ());
 			foreach (var axis in axes) {

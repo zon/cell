@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public struct Bounds2 {
-		public readonly Vector2 center;
-		public readonly Vector2 size;
-		public readonly Vector2 extents;
-		public readonly Vector2 min;
-		public readonly Vector2 max;
+		public readonly Vec2 center;
+		public readonly Vec2 size;
+		public readonly Vec2 extents;
+		public readonly Vec2 min;
+		public readonly Vec2 max;
 
-		public Bounds2(Vector2 center, Vector2 size) {
+		public Bounds2(Vec2 center, Vec2 size) {
 			this.center = center;
 			this.size = size;
 			extents = size / 2;
@@ -18,7 +18,7 @@ namespace Cell {
 			max = center + extents;
 		}
 
-		public bool Contains(Vector2 point) {
+		public bool Contains(Vec2 point) {
 			if (point.x < min.x)
 				return false;
 			if (point.y < min.y)
@@ -30,7 +30,7 @@ namespace Cell {
 			return true;
 		}
 
-		public static Bounds2 MinMax(Vector2 min, Vector2 max) {
+		public static Bounds2 MinMax(Vec2 min, Vec2 max) {
 			var size = max - min;
 			var center = min + size / 2;
 			return new Bounds2 (center, size);

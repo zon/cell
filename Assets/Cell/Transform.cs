@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Transform {
-		public Vector2 position;
-		public double rotation;
-		public Vector2 scale = Vector2.one;
+		public Vec2 position;
+		public Quat rotation;
+		public Vec2 scale = Vec2.one;
 
 		public Matrix3x3 GetMatrix() {
 			return Matrix3x3.TRS(position, rotation, scale);

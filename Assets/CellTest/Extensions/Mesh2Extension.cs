@@ -6,7 +6,7 @@ using Cell;
 public static class Mesh2Extension {
 
 	public static Mesh ToUnity(this Mesh2 mesh) {
-		var vertices = new Vector3[mesh.vertices.Length];
+		var vertices = new UnityEngine.Vector3[mesh.vertices.Length];
 		for (var v = 0; v < vertices.Length; v++) {
 			vertices[v] = mesh.vertices[v].ToUnity();
 		}

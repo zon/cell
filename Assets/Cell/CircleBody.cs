@@ -8,7 +8,7 @@ namespace Cell {
 		public double radius = 0.5;
 		public Transform transform { get; private set; }
 
-		static HashSet<Vector2> surfaceAxes = new HashSet<Vector2>();
+		static HashSet<Vec2> surfaceAxes = new HashSet<Vec2>();
 
 		public double scaleRadius {
 			get { return radius * Math.Max(transform.scale.x, transform.scale.y); }
@@ -29,11 +29,11 @@ namespace Cell {
 				return null;
 		}
 
-		public HashSet<Vector2> GetSurfaceAxes() {
+		public HashSet<Vec2> GetSurfaceAxes() {
 			return surfaceAxes;
 		}
 
-		public Line Project(Vector2 axis) {
+		public Line Project(Vec2 axis) {
 			var p = transform.position.Dot(axis);
 			var r = scaleRadius;
 			return new Line(p - r, p + r);
