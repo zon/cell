@@ -1,0 +1,4 @@
+RESTRICTION: == net46
+NUGET
+  remote: https://www.nuget.org/api/v2
+    System.Numerics.Vectors (4.4)

@@ -1,0 +1,4 @@
+framework: net46
+source https://nuget.org/api/v2
+
+nuget System.Numerics.Vectors
