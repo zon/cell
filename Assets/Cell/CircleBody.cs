@@ -6,9 +6,13 @@ namespace Cell {
 
 	public class CircleBody : IBody {
 		public double radius = 0.5;
-		public Transform transform { get; private set; }
 
-		static HashSet<Vector2> surfaceAxes = new HashSet<Vector2>();
+		static HashSet<Vec2> surfaceAxes = new HashSet<Vec2>();
+
+		public Transform transform { get; private set; }
+		public Bounds2 bounds { get; private set; }
+		public Grid grid { get; set; }
+		public Rect previousCells { get; set; }
 
 		public double scaleRadius {
 			get { return radius * Math.Max(transform.scale.x, transform.scale.y); }
@@ -16,9 +20,16 @@ namespace Cell {
 
 		public CircleBody() {
 			transform = new Transform();
+			previousCells = new Rect();
 		}
 
-		public void Update() {}
+		public void Update() {
+			transform.Update();
+		}
+
+		public void Post() {
+			transform.Post();
+		}
 
 		public Collision CheckCollision(IBody other) {
 			if (other is MeshBody)
@@ -29,11 +40,11 @@ namespace Cell {
 				return null;
 		}
 
-		public HashSet<Vector2> GetSurfaceAxes() {
+		public HashSet<Vec2> GetSurfaceAxes() {
 			return surfaceAxes;
 		}
 
-		public Line Project(Vector2 axis) {
+		public Line Project(Vec2 axis) {
 			var p = transform.position.Dot(axis);
 			var r = scaleRadius;
 			return new Line(p - r, p + r);

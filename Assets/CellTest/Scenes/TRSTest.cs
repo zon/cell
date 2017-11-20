@@ -21,9 +21,9 @@ public class TRSTest : MonoBehaviour {
 	void Update () {
 		var t = (Time.time % translationDuration) / translationDuration;
 
-		body.transform.position = UnityEngine.Vector2.Lerp(minPosition, maxPosition, t).ToCell();
-		body.transform.rotation += (rotationRate / translationDuration) * Cell.Vector2.deg2rad * Time.deltaTime;
-		body.transform.scale = UnityEngine.Vector2.Lerp(minScale, maxScale, t).ToCell();
+		body.transform.position = Vector2.Lerp(minPosition, maxPosition, t).ToCell();
+		body.transform.rotation += (rotationRate / translationDuration) * Vec2.deg2rad * Time.deltaTime;
+		body.transform.scale = Vector2.Lerp(minScale, maxScale, t).ToCell();
 
 		body.Update();
 

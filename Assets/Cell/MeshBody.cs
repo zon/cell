@@ -11,17 +11,31 @@ namespace Cell {
 		public Transform transform { get; private set; }
 		public Matrix3x3 matrix { get; private set; }
 		public Mesh2 mesh { get; private set; }
+		public Grid grid { get; set; }
+		public Rect previousCells { get; set; }
+
+		public Bounds2 bounds {
+			get {
+				return mesh.bounds;
+			}
+		}
 
 		public MeshBody() {
 			transform = new Transform();
 			mesh = new Mesh2();
+			previousCells = new Rect();
 		}
 
 		public void Update() {
+			transform.Update();
+
+			if (!transform.altered)
+				return;
+			
 			matrix = transform.GetMatrix();
 
 			if (mesh.vertices.Length != source.vertices.Length)
-				mesh.vertices = new Vector2[source.vertices.Length];
+				mesh.vertices = new Vec2[source.vertices.Length];
 
 			for (var i = 0; i < mesh.vertices.Length; i++)
 				mesh.vertices[i] = matrix * source.vertices[i];
@@ -29,15 +43,19 @@ namespace Cell {
 			mesh.Update();
 		}
 
+		public void Post() {
+			transform.Post();
+		}
+
 		public Collision CheckCollision(IBody other) {
 			return Collision.CheckAxes (this, other);
 		}
 
-		public HashSet<Vector2> GetSurfaceAxes() {
+		public HashSet<Vec2> GetSurfaceAxes() {
 			return mesh.surfaceAxes;
 		}
 
-		public Line Project(Vector2 axis) {
+		public Line Project(Vec2 axis) {
 			var min = double.PositiveInfinity;
 			var max = double.NegativeInfinity;
 			for (var v = 0; v < mesh.vertices.Length; v++) {

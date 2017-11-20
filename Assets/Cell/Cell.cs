@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Cell {
-		public readonly HashSet<MeshBody> bodies = new HashSet<MeshBody>();
+		public readonly HashSet<IBody> bodies = new HashSet<IBody>();
 	}
 
 }

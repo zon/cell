@@ -5,34 +5,34 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Mesh2 {
-		public Vector2[] vertices;
+		public Vec2[] vertices;
 		public Bounds2 bounds;
 
-		HashSet<Vector2> _surfaceAxes = new HashSet<Vector2>();
+		HashSet<Vec2> _surfaceAxes = new HashSet<Vec2>();
 
-		public HashSet<Vector2> surfaceAxes {
+		public HashSet<Vec2> surfaceAxes {
 			get { return _surfaceAxes; }
 		}
 
-		public Mesh2(Vector2[] vertices) {
+		public Mesh2(Vec2[] vertices) {
 			this.vertices = vertices;
 			Update();
 		}
 
 		public Mesh2() {
-			vertices = new Vector2[0];
+			vertices = new Vec2[0];
 			bounds = new Bounds2();
 		}
 
 		public Mesh2 Clone() {
-			return new Mesh2((Vector2[]) vertices.Clone());
+			return new Mesh2((Vec2[]) vertices.Clone());
 		}
 
 		public void Update() {
 			_surfaceAxes.Clear();
 			
-			var min = Vector2.zero;
-			var max = Vector2.zero;
+			var min = Vec2.positiveInfinity;
+			var max = Vec2.negativeInfinity;
 			
 			for (var a = 0; a < vertices.Length; a++) {
 				var b = (a + 1) % vertices.Length;
@@ -51,11 +51,11 @@ namespace Cell {
 			bounds = Bounds2.MinMax(min, max);
 		}
 
-		public static Mesh2 square = new Mesh2(new Vector2[] {
-			new Vector2(0.5, 0.5),
-			new Vector2(0.5, -0.5),
-			new Vector2(-0.5, -0.5),
-			new Vector2(-0.5, 0.5)
+		public static Mesh2 square = new Mesh2(new Vec2[] {
+			new Vec2(0.5, 0.5),
+			new Vec2(0.5, -0.5),
+			new Vec2(-0.5, -0.5),
+			new Vec2(-0.5, 0.5)
 		});
 
 	}

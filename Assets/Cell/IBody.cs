@@ -5,13 +5,17 @@ namespace Cell {
 
 	public interface IBody {
 		Transform transform { get; }
+		Bounds2 bounds { get; }
+		Grid grid { get; set; }
+		Rect previousCells { get; set; }
 
 		void Update();
+		void Post();
 
 		Collision CheckCollision(IBody other);
 
-		HashSet<Vector2> GetSurfaceAxes ();
-		Line Project(Vector2 axis);
+		HashSet<Vec2> GetSurfaceAxes ();
+		Line Project(Vec2 axis);
 
 	}
 

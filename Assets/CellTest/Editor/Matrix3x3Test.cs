@@ -46,7 +46,7 @@ public class Matrix3x3Test {
 	[Test]
 	public void Rotate() {
 		var degrees = 30f;
-		var radians = degrees * Cell.Vector2.deg2rad;
+		var radians = degrees * Vec2.deg2rad;
 		var point = new UnityEngine.Vector3 (5, 3, 0);
 
 		var cell = Matrix3x3.Rotate (radians);
@@ -76,7 +76,7 @@ public class Matrix3x3Test {
 	public void TRS() {
 		var offset = new UnityEngine.Vector3(887, 431, 0);
 		var degrees = 83f;
-		var radians = degrees * Cell.Vector2.deg2rad;
+		var radians = degrees * Vec2.deg2rad;
 		var scale = new UnityEngine.Vector3(2, 3, 1);
 		var point = new UnityEngine.Vector3(409, 701);
 
