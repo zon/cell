@@ -24,8 +24,8 @@ namespace Cell {
 				(int) Math.Floor(bounds.min.y / scale)
 			);
 			max = new Coord(
-				(int) Math.Ceiling(bounds.max.x / scale),
-				(int) Math.Ceiling(bounds.max.y / scale)
+				(int) Math.Floor(bounds.max.x / scale),
+				(int) Math.Floor(bounds.max.y / scale)
 			);
 		}
 
@@ -56,6 +56,10 @@ namespace Cell {
 			return Hash.Base
 				.HashValue(min)
 				.HashValue(max);
+		}
+
+		public Bounds2 ToBounds2() {
+			return Bounds2.MinMax(min.ToVec2(), max.ToVec2() + Vec2.one);
 		}
 
 		public override string ToString() {

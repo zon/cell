@@ -37,11 +37,11 @@ namespace Cell {
 		public HashSet<IBody> Get(int minX, int minY, int maxX, int maxY) {
 			var result = new HashSet<IBody>();
 			var xStart = Math.Max(minX, 0);
-			var xEnd = Math.Min(maxX + 1, size);
+			var xEnd = Math.Min(maxX, size - 1);
 			var yStart = Math.Max(minY, 0);
-			var yEnd = Math.Min(maxY + 1, size);
-			for (var y = yStart; y < yEnd; y++) {
-				for (var x = xStart; x < xEnd; x++) {
+			var yEnd = Math.Min(maxY, size - 1);
+			for (var y = yStart; y <= yEnd; y++) {
+				for (var x = xStart; x <= xEnd; x++) {
 					result.UnionWith(cells[x, y].bodies);
 				}
 			}
@@ -72,25 +72,25 @@ namespace Cell {
 			body.cells.Fit(body.bounds, scale);
 			var cells = body.cells;
 			var xStart = Math.Max(cells.min.x, 0);
-			var xEnd = Math.Min(cells.max.x + 1, size);
+			var xEnd = Math.Min(cells.max.x, size - 1);
 			var yStart = Math.Max(cells.min.y, 0);
-			var yEnd = Math.Min(cells.max.y + 1, size);
-			for (var y = yStart; y < yEnd; y++) {
-				for (var x = xStart; x < xEnd; x++) {
+			var yEnd = Math.Min(cells.max.y, size - 1);
+			for (var y = yStart; y <= yEnd; y++) {
+				for (var x = xStart; x <= xEnd; x++) {
 					this.cells[x, y].bodies.Add(body);
 				}
 			}
 		}
 
 		void RemoveBody(IBody body) {
-			var bounds = body.cells;
-			var xStart = Math.Max(bounds.min.x, 0);
-			var xEnd = Math.Min(bounds.max.x + 1, size);
-			var yStart = Math.Max(bounds.min.y, 0);
-			var yEnd = Math.Min(bounds.max.y + 1, size);
-			for (var y = yStart; y < yEnd; y++) {
-				for (var x = xStart; x < xEnd; x++) {
-					cells[x, y].bodies.Remove(body);
+			var cells = body.cells;
+			var xStart = Math.Max(cells.min.x, 0);
+			var xEnd = Math.Min(cells.max.x, size - 1);
+			var yStart = Math.Max(cells.min.y, 0);
+			var yEnd = Math.Min(cells.max.y, size - 1);
+			for (var y = yStart; y <= yEnd; y++) {
+				for (var x = xStart; x <= xEnd; x++) {
+					this.cells[x, y].bodies.Remove(body);
 				}
 			}
 		}

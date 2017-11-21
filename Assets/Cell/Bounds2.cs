@@ -18,6 +18,10 @@ namespace Cell {
 			max = center + extents;
 		}
 
+		public static Bounds2 operator *(Bounds2 b, double d) {
+			return new Bounds2(b.center * d, b.size * d);
+		}
+
 		public bool Contains(Vec2 point) {
 			if (point.x < min.x)
 				return false;

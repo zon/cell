@@ -9,6 +9,7 @@ namespace Cell {
 		public readonly int y;
 
 		public static Coord zero = new Coord(0, 0);
+		public static Coord one = new Coord(1, 1);
 
 		public static Coord operator +(Coord a, Coord b) {
 			return new Coord(a.x + b.x, a.y + b.y);
@@ -58,6 +59,10 @@ namespace Cell {
 			return Hash.Base
 				.HashValue(x)
 				.HashValue(y);
+		}
+
+		public Vec2 ToVec2() {
+			return new Vec2(x, y);
 		}
 
 		public override string ToString() {
