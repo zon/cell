@@ -6,7 +6,7 @@ using Cell;
 public static class GridExtension  {
 
 	public static void DrawCells(this Grid grid, IBody body, Color color) {
-		var rect = body.previousCells;
+		var rect = body.cells;
 		var scale = grid.scale;
 
 		var half = new Color(color.r, color.g, color.b, color.a / 2);
@@ -19,7 +19,7 @@ public static class GridExtension  {
 
 		var ld = rect.min * scale;
 		var rd = new Coord(rect.max.x, rect.min.y) * scale;
-		var ru = body.previousCells.max * grid.scale;
+		var ru = body.cells.max * grid.scale;
 		var lu = new Coord(rect.min.x, rect.max.y) * scale;
 		Draw.Line(ld, lu, color);
 		Draw.Line(lu, ru, color);

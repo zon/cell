@@ -12,7 +12,7 @@ namespace Cell {
 		public Matrix3x3 matrix { get; private set; }
 		public Mesh2 mesh { get; private set; }
 		public Grid grid { get; set; }
-		public Rect previousCells { get; set; }
+		public Rect cells { get; set; }
 
 		public Bounds2 bounds {
 			get {
@@ -23,7 +23,7 @@ namespace Cell {
 		public MeshBody() {
 			transform = new Transform();
 			mesh = new Mesh2();
-			previousCells = new Rect();
+			cells = new Rect();
 		}
 
 		public void Update() {

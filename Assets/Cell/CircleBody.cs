@@ -12,7 +12,7 @@ namespace Cell {
 		public Transform transform { get; private set; }
 		public Bounds2 bounds { get; private set; }
 		public Grid grid { get; set; }
-		public Rect previousCells { get; set; }
+		public Rect cells { get; set; }
 
 		public double scaleRadius {
 			get { return radius * Math.Max(transform.scale.x, transform.scale.y); }
@@ -20,7 +20,7 @@ namespace Cell {
 
 		public CircleBody() {
 			transform = new Transform();
-			previousCells = new Rect();
+			cells = new Rect();
 		}
 
 		public void Update() {

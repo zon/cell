@@ -7,7 +7,7 @@ namespace Cell {
 		Transform transform { get; }
 		Bounds2 bounds { get; }
 		Grid grid { get; set; }
-		Rect previousCells { get; set; }
+		Rect cells { get; set; }
 
 		void Update();
 		void Post();
