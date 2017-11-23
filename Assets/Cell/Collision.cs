@@ -13,6 +13,9 @@ namespace Cell {
 		}
 
 		public static Collision CheckAxes(IBody aBody, IBody bBody) {
+			if (aBody == bBody)
+				return null;
+
 			var minOverlap = double.PositiveInfinity;
 			var minOverlapVector = Vec2.zero;
 
@@ -47,6 +50,8 @@ namespace Cell {
 		}
 
 		public static Collision CheckRadius(CircleBody aBody, CircleBody bBody) {
+			if (aBody == bBody)
+				return null;
 			var delta = bBody.transform.position - aBody.transform.position;
 			var min = bBody.radius + aBody.radius;
 			if (delta.sqrMagnitude < min * min) {

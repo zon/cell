@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Cell;
 
@@ -42,8 +43,9 @@ public class GridTest : MonoBehaviour {
 
 		grid.Update();
 		grid.Post();
-
-		var bodies = grid.Get(follower.cells);
+		
+		var collisions = grid.CheckCollision(follower);
+		var bodies = collisions.Select(c => c.body);
 		for (var o = 0; o < obstacles.Length; o++) {
 			var ob = obstacles[o];
 			grid.DrawCells(ob, Color.blue);

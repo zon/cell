@@ -52,6 +52,17 @@ namespace Cell {
 			return Get(cells.min.x, cells.min.y, cells.max.x, cells.max.y);
 		}
 
+		public List<Collision> CheckCollision(IBody body) {
+			var neighbors = Get(body.cells);
+			var collisions = new List<Collision>();
+			foreach (var neighbor in neighbors) {
+				var collision = body.CheckCollision(neighbor);
+				if (collision != null)
+					collisions.Add(collision);
+			}
+			return collisions;
+		}
+
 		public void Update() {
 			foreach (var body in bodies) {
 				body.Update();
