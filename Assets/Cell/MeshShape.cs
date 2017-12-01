@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Cell {
 
-	public class MeshBody : IBody {
+	public class MeshShape : IShape {
 		public Mesh2 source;
 
 		public Transform transform { get; private set; }
@@ -20,7 +20,7 @@ namespace Cell {
 			}
 		}
 
-		public MeshBody() {
+		public MeshShape() {
 			transform = new Transform();
 			mesh = new Mesh2();
 			cells = new Rect();
@@ -47,7 +47,7 @@ namespace Cell {
 			transform.Post();
 		}
 
-		public Collision CheckCollision(IBody other) {
+		public Collision CheckCollision(IShape other) {
 			return Collision.CheckAxes (this, other);
 		}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cell {
 
-	public interface IBody {
+	public interface IShape {
 		Transform transform { get; }
 		Bounds2 bounds { get; }
 		Grid grid { get; set; }
@@ -12,7 +12,7 @@ namespace Cell {
 		void Update();
 		void Post();
 
-		Collision CheckCollision(IBody other);
+		Collision CheckCollision(IShape other);
 
 		HashSet<Vec2> GetSurfaceAxes ();
 		Line Project(Vec2 axis);

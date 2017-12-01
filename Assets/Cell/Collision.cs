@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Collision {
-		public readonly IBody body;
+		public readonly IShape body;
 		public readonly Vec2 overlap;
 
-		public Collision(IBody body, Vec2 overlap) {
+		public Collision(IShape body, Vec2 overlap) {
 			this.body = body;
 			this.overlap = overlap;
 		}
 
-		public static Collision CheckAxes(IBody aBody, IBody bBody) {
+		public static Collision CheckAxes(IShape aBody, IShape bBody) {
 			if (aBody == bBody)
 				return null;
 
@@ -49,7 +49,7 @@ namespace Cell {
 			return new Collision (bBody, minOverlapVector);
 		}
 
-		public static Collision CheckRadius(CircleBody aBody, CircleBody bBody) {
+		public static Collision CheckRadius(CircleShape aBody, CircleShape bBody) {
 			if (aBody == bBody)
 				return null;
 			var delta = bBody.transform.position - aBody.transform.position;

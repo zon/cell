@@ -11,10 +11,10 @@ public class TRSTest : MonoBehaviour {
 	public UnityEngine.Vector2 minScale = UnityEngine.Vector2.one;
 	public UnityEngine.Vector2 maxScale = UnityEngine.Vector2.one;
 
-	MeshBody body;
+	MeshShape body;
 	
 	void Start () {
-		body = new MeshBody();
+		body = new MeshShape();
 		body.source = Mesh2.square.Clone(); ;
 	}
 	

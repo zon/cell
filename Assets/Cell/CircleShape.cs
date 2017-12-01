@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Cell {
 
-	public class CircleBody : IBody {
+	public class CircleShape : IShape {
 		public double radius = 0.5;
 
 		static HashSet<Vec2> surfaceAxes = new HashSet<Vec2>();
@@ -18,7 +18,7 @@ namespace Cell {
 			get { return radius * Math.Max(transform.scale.x, transform.scale.y); }
 		}
 
-		public CircleBody() {
+		public CircleShape() {
 			transform = new Transform();
 			cells = new Rect();
 		}
@@ -31,11 +31,11 @@ namespace Cell {
 			transform.Post();
 		}
 
-		public Collision CheckCollision(IBody other) {
-			if (other is MeshBody)
-				return Collision.CheckAxes (this, other as MeshBody);
-			else if (other is CircleBody)
-				return Collision.CheckRadius (this, other as CircleBody);
+		public Collision CheckCollision(IShape other) {
+			if (other is MeshShape)
+				return Collision.CheckAxes (this, other as MeshShape);
+			else if (other is CircleShape)
+				return Collision.CheckRadius (this, other as CircleShape);
 			else
 				return null;
 		}

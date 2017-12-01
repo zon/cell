@@ -8,7 +8,7 @@ namespace Cell {
 		public readonly double scale;
 		public readonly int size;
 		public readonly Cell[,] cells;
-		public readonly HashSet<IBody> bodies;
+		public readonly HashSet<IShape> bodies;
 
 		public Grid(int size, double scale) {
 			this.scale = scale;
@@ -20,22 +20,22 @@ namespace Cell {
 					cells[x, y] = new Cell();
 				}
 			}
-			bodies = new HashSet<IBody>();
+			bodies = new HashSet<IShape>();
 		}
 
-		public void Add(IBody body) {
+		public void Add(IShape body) {
 			bodies.Add(body);
 			body.grid = this;
 		}
 
-		public void Remove(IBody body) {
+		public void Remove(IShape body) {
 			bodies.Remove(body);
 			RemoveBody(body);
 			body.grid = null;
 		}
 
-		public HashSet<IBody> Get(int minX, int minY, int maxX, int maxY) {
-			var result = new HashSet<IBody>();
+		public HashSet<IShape> Get(int minX, int minY, int maxX, int maxY) {
+			var result = new HashSet<IShape>();
 			var xStart = Math.Max(minX, 0);
 			var xEnd = Math.Min(maxX, size - 1);
 			var yStart = Math.Max(minY, 0);
@@ -48,11 +48,11 @@ namespace Cell {
 			return result;
 		}
 
-		public HashSet<IBody> Get(Rect cells) {
+		public HashSet<IShape> Get(Rect cells) {
 			return Get(cells.min.x, cells.min.y, cells.max.x, cells.max.y);
 		}
 
-		public List<Collision> CheckCollision(IBody body) {
+		public List<Collision> CheckCollision(IShape body) {
 			var neighbors = Get(body.cells);
 			var collisions = new List<Collision>();
 			foreach (var neighbor in neighbors) {
@@ -79,7 +79,7 @@ namespace Cell {
 			}
 		}
 
-		void AddBody(IBody body) {
+		void AddBody(IShape body) {
 			body.cells.Fit(body.bounds, scale);
 			var cells = body.cells;
 			var xStart = Math.Max(cells.min.x, 0);
@@ -93,7 +93,7 @@ namespace Cell {
 			}
 		}
 
-		void RemoveBody(IBody body) {
+		void RemoveBody(IShape body) {
 			var cells = body.cells;
 			var xStart = Math.Max(cells.min.x, 0);
 			var xEnd = Math.Min(cells.max.x, size - 1);

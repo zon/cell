@@ -9,13 +9,13 @@ public class CircleCollisionTest : MonoBehaviour {
 	public UnityEngine.Vector2 aScale = UnityEngine.Vector2.one;
 	public UnityEngine.Vector2 bScale = UnityEngine.Vector2.one;
 
-	MeshBody a;
-	CircleBody b;
+	MeshShape a;
+	CircleShape b;
 
 	void Start () {
-		a = new MeshBody();
+		a = new MeshShape();
 		a.source = Mesh2.square.Clone();
-		b = new CircleBody();
+		b = new CircleShape();
 		b.radius = 0.5;
 	}
 

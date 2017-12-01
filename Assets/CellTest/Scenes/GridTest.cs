@@ -11,16 +11,16 @@ public class GridTest : MonoBehaviour {
 	public Vector2 scale = Vector2.one;
 
 	Grid grid;
-	MeshBody[] obstacles;
-	MeshBody follower;
+	MeshShape[] obstacles;
+	MeshShape follower;
 
 	void Start () {
 		grid = new Grid(20, 0.75);
 
-		obstacles = new MeshBody[obstacleCount];
+		obstacles = new MeshShape[obstacleCount];
 		var size = 10f;
 		for (var o = 0; o < obstacleCount; o++) {
-			var ob = new MeshBody();
+			var ob = new MeshShape();
 			ob.source = Mesh2.square.Clone();
 			ob.transform.position = new Vector2(
 				Random.Range(0, size),
@@ -31,7 +31,7 @@ public class GridTest : MonoBehaviour {
 			grid.Add(ob);
 		}
 
-		follower = new MeshBody();
+		follower = new MeshShape();
 		follower.source = Mesh2.square.Clone();
 		grid.Add(follower);
 	}
