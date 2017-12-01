@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Collision {
-		public readonly IShape body;
+		public readonly IShape shape;
 		public readonly Vec2 overlap;
 
-		public Collision(IShape body, Vec2 overlap) {
-			this.body = body;
+		public Collision(IShape shape, Vec2 overlap) {
+			this.shape = shape;
 			this.overlap = overlap;
 		}
 

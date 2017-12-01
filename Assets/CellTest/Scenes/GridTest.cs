@@ -45,7 +45,7 @@ public class GridTest : MonoBehaviour {
 		grid.Post();
 		
 		var collisions = grid.CheckCollision(follower);
-		var bodies = collisions.Select(c => c.body);
+		var bodies = collisions.Select(c => c.shape);
 		for (var o = 0; o < obstacles.Length; o++) {
 			var ob = obstacles[o];
 			grid.DrawCells(ob, Color.blue);
