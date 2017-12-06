@@ -11,10 +11,10 @@ public class RectTest {
 	[Test]
 	public void Fit() {
 		var bounds = Bounds2.MinMax(3.2, 4.1, 10.6, 12);
-		var rect = new Cell.Rect();
+		var rect = new Cell.Area();
 		var scale = 0.5;
 		rect.Fit(bounds, scale);
-		Assert.AreEqual(new Cell.Rect(6, 8, 22, 24), rect);
+		Assert.AreEqual(new Cell.Area(6, 8, 22, 24), rect);
 	}
 
 }

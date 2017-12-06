@@ -5,8 +5,8 @@ using Cell;
 
 public static class GridExtension  {
 
-	public static void DrawCells(this Grid grid, IShape body, Color color) {
-		var rect = body.cells;
+	public static void DrawCells(this Grid grid, Shape body, Color color) {
+		var rect = body.area;
 		var scale = grid.scale;
 		var bounds = rect.ToBounds2() * scale;
 

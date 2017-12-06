@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Collision {
-		public readonly IShape shape;
+		public readonly Shape shape;
 		public readonly Vec2 overlap;
 
-		public Collision(IShape shape, Vec2 overlap) {
+		public Collision(Shape shape, Vec2 overlap) {
 			this.shape = shape;
 			this.overlap = overlap;
 		}
 
-		public static Collision CheckAxes(IShape aBody, IShape bBody) {
+		public static Collision CheckAxes(Shape aBody, Shape bBody) {
 			if (aBody == bBody)
 				return null;
 
@@ -20,8 +20,8 @@ namespace Cell {
 			var minOverlapVector = Vec2.zero;
 
 			var axes = new HashSet<Vec2> ();
-			axes.UnionWith (aBody.GetSurfaceAxes ());
-			axes.UnionWith (bBody.GetSurfaceAxes ());
+			axes.UnionWith (aBody.surfaceAxes);
+			axes.UnionWith (bBody.surfaceAxes);
 			foreach (var axis in axes) {
 
 				var a = aBody.Project (axis);

@@ -5,30 +5,17 @@ using System.Linq;
 
 namespace Cell {
 
-	public class MeshShape : IShape {
+	public class MeshShape : Shape {
 		public Mesh2 source;
 
-		public Transform transform { get; private set; }
 		public Matrix3x3 matrix { get; private set; }
 		public Mesh2 mesh { get; private set; }
-		public Grid grid { get; set; }
-		public Rect cells { get; set; }
 
-		public Bounds2 bounds {
-			get {
-				return mesh.bounds;
-			}
-		}
-
-		public MeshShape() {
-			transform = new Transform();
+		public MeshShape() : base() {
 			mesh = new Mesh2();
-			cells = new Rect();
 		}
 
-		public void Update() {
-			transform.Update();
-
+		public override void Update() {
 			if (!transform.altered)
 				return;
 			
@@ -41,21 +28,16 @@ namespace Cell {
 				mesh.vertices[i] = matrix * source.vertices[i];
 
 			mesh.Update();
+
+			bounds = mesh.bounds;
+			surfaceAxes = mesh.surfaceAxes;
 		}
 
-		public void Post() {
-			transform.Post();
-		}
-
-		public Collision CheckCollision(IShape other) {
+		public override Collision CheckCollision(Shape other) {
 			return Collision.CheckAxes (this, other);
 		}
 
-		public HashSet<Vec2> GetSurfaceAxes() {
-			return mesh.surfaceAxes;
-		}
-
-		public Line Project(Vec2 axis) {
+		public override Line Project(Vec2 axis) {
 			var min = double.PositiveInfinity;
 			var max = double.NegativeInfinity;
 			for (var v = 0; v < mesh.vertices.Length; v++) {

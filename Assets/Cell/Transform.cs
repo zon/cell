@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cell {
 
-	public class Transform {
+	public class Transform : Behavior {
 		Vec2 _position;
 		double _rotation;
 		Vec2 _scale = Vec2.one;
@@ -44,9 +44,7 @@ namespace Cell {
 			altered = true;
 		}
 
-		public void Update() {}
-
-		public void Post() {
+		public override void PostUpdate() {
 			altered = false;
 		}
 

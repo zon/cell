@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Cell {
-		public readonly HashSet<IShape> bodies = new HashSet<IShape>();
+		public readonly HashSet<Obstacle> obstacles = new HashSet<Obstacle>();
+		public readonly HashSet<Body> bodies = new HashSet<Body>();
 	}
 
 }

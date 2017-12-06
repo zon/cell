@@ -8,7 +8,6 @@ namespace Cell {
 		public readonly double scale;
 		public readonly int size;
 		public readonly Cell[,] cells;
-		public readonly HashSet<IShape> bodies;
 
 		public Grid(int size, double scale) {
 			this.scale = scale;
@@ -20,22 +19,19 @@ namespace Cell {
 					cells[x, y] = new Cell();
 				}
 			}
-			bodies = new HashSet<IShape>();
 		}
 
-		public void Add(IShape body) {
-			bodies.Add(body);
-			body.grid = this;
+		public void Add(Body body) {
+			body.shape.grid = this;
 		}
 
-		public void Remove(IShape body) {
-			bodies.Remove(body);
+		public void Remove(Body body) {
 			RemoveBody(body);
-			body.grid = null;
+			body.shape.grid = null;
 		}
 
-		public HashSet<IShape> Get(int minX, int minY, int maxX, int maxY) {
-			var result = new HashSet<IShape>();
+		public HashSet<Body> Get(int minX, int minY, int maxX, int maxY) {
+			var result = new HashSet<Body>();
 			var xStart = Math.Max(minX, 0);
 			var xEnd = Math.Min(maxX, size - 1);
 			var yStart = Math.Max(minY, 0);
@@ -48,60 +44,54 @@ namespace Cell {
 			return result;
 		}
 
-		public HashSet<IShape> Get(Rect cells) {
-			return Get(cells.min.x, cells.min.y, cells.max.x, cells.max.y);
+		public HashSet<Body> Get(Area area) {
+			return Get(area.min.x, area.min.y, area.max.x, area.max.y);
 		}
 
-		public List<Collision> CheckCollision(IShape body) {
-			var neighbors = Get(body.cells);
+		public List<Collision> CheckCollision(Body body) {
+			var neighbors = Get(body.shape.area);
 			var collisions = new List<Collision>();
 			foreach (var neighbor in neighbors) {
-				var collision = body.CheckCollision(neighbor);
+				var collision = body.shape.CheckCollision(neighbor.shape);
 				if (collision != null)
 					collisions.Add(collision);
 			}
 			return collisions;
 		}
 
-		public void Update() {
-			foreach (var body in bodies) {
-				body.Update();
-				if (body.transform.altered) {
-					RemoveBody(body);
-					AddBody(body);
-				}
+		public void Update(Body body) {
+			if (body.shape.transform.altered) {
+				RemoveBody(body);
+				AddBody(body);
 			}
 		}
 
-		public void Post() {
-			foreach (var body in bodies) {
-				body.Post();
-			}
+		void AddObstacle(Obstacle obstacle) {
+			obstacle.shape.FitArea(scale);
+			Loop(obstacle.shape.area, c => c.obstacles.Add(obstacle));
 		}
 
-		void AddBody(IShape body) {
-			body.cells.Fit(body.bounds, scale);
-			var cells = body.cells;
-			var xStart = Math.Max(cells.min.x, 0);
-			var xEnd = Math.Min(cells.max.x, size - 1);
-			var yStart = Math.Max(cells.min.y, 0);
-			var yEnd = Math.Min(cells.max.y, size - 1);
+		void RemoveObstacle(Obstacle obstacle) {
+			Loop(obstacle.shape.area, c => c.obstacles.Remove(obstacle));
+		}
+
+		void AddBody(Body body) {
+			body.shape.FitArea(scale);
+			Loop(body.shape.area, c => c.bodies.Add(body));
+		}
+
+		void RemoveBody(Body body) {
+			Loop(body.shape.area, c => c.bodies.Remove(body));
+		}
+
+		void Loop(Area area, Action<Cell> callback) {
+			var xStart = Math.Max(area.min.x, 0);
+			var xEnd = Math.Min(area.max.x, size - 1);
+			var yStart = Math.Max(area.min.y, 0);
+			var yEnd = Math.Min(area.max.y, size - 1);
 			for (var y = yStart; y <= yEnd; y++) {
 				for (var x = xStart; x <= xEnd; x++) {
-					this.cells[x, y].bodies.Add(body);
-				}
-			}
-		}
-
-		void RemoveBody(IShape body) {
-			var cells = body.cells;
-			var xStart = Math.Max(cells.min.x, 0);
-			var xEnd = Math.Min(cells.max.x, size - 1);
-			var yStart = Math.Max(cells.min.y, 0);
-			var yEnd = Math.Min(cells.max.y, size - 1);
-			for (var y = yStart; y <= yEnd; y++) {
-				for (var x = xStart; x <= xEnd; x++) {
-					this.cells[x, y].bodies.Remove(body);
+					callback(cells[x, y]);
 				}
 			}
 		}

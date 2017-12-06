@@ -33,7 +33,7 @@ public static class Draw {
 	}
 
 	public static void Rect(
-		Cell.Rect rect, Color color, float duration = 0, bool depthTest = true  
+		Cell.Area rect, Color color, float duration = 0, bool depthTest = true  
 	) {
 		Rect(rect.min, rect.max, color, duration, depthTest);
 	}

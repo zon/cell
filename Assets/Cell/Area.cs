@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace Cell {
 
-	public class Rect : IEquatable<Rect> {
+	public class Area : IEquatable<Area> {
 		public Coord min;
 		public Coord max;
 
-		public Rect() {
+		public Area() {
 			min = Coord.zero;
 			max = Coord.zero;
 		}
 
-		public Rect(int minX, int minY, int maxX, int maxY) {
+		public Area(int minX, int minY, int maxX, int maxY) {
 			min = new Coord(minX, minY);
 			max = new Coord(maxX, maxY);
 		}
@@ -29,11 +29,11 @@ namespace Cell {
 			);
 		}
 
-		public static bool operator ==(Rect a, Rect b) {
+		public static bool operator ==(Area a, Area b) {
 			return a.Equals(b);
 		}
 
-		public static bool operator !=(Rect a, Rect b) {
+		public static bool operator !=(Area a, Area b) {
 			return a.min != b.min || a.max != b.max;
 		}
 
@@ -45,10 +45,10 @@ namespace Cell {
 			if (obj == null || obj.GetType() != GetType())
 				return false;
 			else
-				return Equals((Rect) obj);
+				return Equals((Area) obj);
 		}
 
-		public bool Equals(Rect other) {
+		public bool Equals(Area other) {
 			return min == other.min && max == other.max;
 		}
 
