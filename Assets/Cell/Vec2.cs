@@ -89,6 +89,13 @@ namespace Cell {
 			);
 		}
 
+		public Vec2 Clamp(double magnitude) {
+			if (sqrMagnitude > magnitude * magnitude)
+				return Normalized() * magnitude;
+			else
+				return new Vec2(x, y);
+		}
+
 		public double Radians(Vec2 other) {
 			return Math.Acos(Dot(other));
 		}
@@ -116,6 +123,8 @@ namespace Cell {
 
 		public const double deg2rad = (Math.PI * 2) / 360;
 		public const double rad2deg = 360 / (Math.PI * 2);
+
+
 
 	}
 

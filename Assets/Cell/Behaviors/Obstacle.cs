@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Cell {
 
@@ -32,6 +31,10 @@ namespace Cell {
 					break;
 			}
 			shape = node.GetAddBehavior(() => new MeshShape(source));
+		}
+
+		public void Snap(Coord coord) {
+			transform.position = coord * shape.grid.scale;
 		}
 
 		public enum Kind {
