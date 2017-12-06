@@ -48,7 +48,6 @@ public class GridTest : MonoBehaviour {
 		Behavior.Loop<Cell.Transform>(t => t.Update());
 		Behavior.Loop<MeshShape>(s => s.Update());
 		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
-		Behavior.Loop<MeshShape>(s => s.PostUpdate());
 		
 		var collisions = grid.CheckCollision(follower.shape);
 		var bodies = collisions.Select(c => c.shape);

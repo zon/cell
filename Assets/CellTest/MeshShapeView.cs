@@ -18,7 +18,7 @@ public class MeshShapeView : MonoBehaviour {
 
 	void Update() {
 		transform.position = shape.transform.position.ToUnity();
-		transform.rotation = Quaternion.AngleAxis((float) shape.transform.rotation, Vector3.forward);
+		transform.rotation = Quaternion.AngleAxis((float) shape.transform.rotation * Mathf.Rad2Deg, Vector3.forward);
 		transform.localScale = shape.transform.scale.ToUnity();
 	}
 
