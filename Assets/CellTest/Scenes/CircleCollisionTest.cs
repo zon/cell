@@ -13,8 +13,7 @@ public class CircleCollisionTest : MonoBehaviour {
 	CircleShape b;
 
 	void Start () {
-		a = new MeshShape();
-		a.source = Mesh2.square.Clone();
+		a = new MeshShape(Mesh2.square);
 		b = new CircleShape();
 		b.radius = 0.5;
 	}

@@ -14,8 +14,7 @@ public class TRSTest : MonoBehaviour {
 	MeshShape body;
 	
 	void Start () {
-		body = new MeshShape();
-		body.source = Mesh2.square.Clone(); ;
+		body = new MeshShape(Mesh2.square);
 	}
 	
 	void Update () {

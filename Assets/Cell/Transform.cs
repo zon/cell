@@ -8,6 +8,7 @@ namespace Cell {
 		double _rotation;
 		Vec2 _scale = Vec2.one;
 		
+		public Matrix3x3 matrix { get; private set; }
 		public bool altered { get; private set; }
 
 		public Vec2 position {
@@ -41,15 +42,17 @@ namespace Cell {
 		}
 
 		public Transform() {
+			matrix = Matrix3x3.identity;
 			altered = true;
+		}
+
+		public override void Update() {
+			if (altered)
+				matrix = Matrix3x3.TRS(position, rotation, scale);
 		}
 
 		public override void PostUpdate() {
 			altered = false;
-		}
-
-		public Matrix3x3 GetMatrix() {
-			return Matrix3x3.TRS(position, rotation, scale);
 		}
 
 	}

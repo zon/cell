@@ -6,31 +6,32 @@ using System.Linq;
 namespace Cell {
 
 	public class MeshShape : Shape {
-		public Mesh2 source;
+		public readonly Mesh2 source;
 
 		public Matrix3x3 matrix { get; private set; }
 		public Mesh2 mesh { get; private set; }
 
-		public MeshShape() : base() {
+		public MeshShape(Mesh2 source) : base() {
+			this.source = source.Clone();
 			mesh = new Mesh2();
 		}
 
 		public override void Update() {
 			if (!transform.altered)
 				return;
-			
-			matrix = transform.GetMatrix();
 
 			if (mesh.vertices.Length != source.vertices.Length)
 				mesh.vertices = new Vec2[source.vertices.Length];
 
 			for (var i = 0; i < mesh.vertices.Length; i++)
-				mesh.vertices[i] = matrix * source.vertices[i];
+				mesh.vertices[i] = transform.matrix * source.vertices[i];
 
 			mesh.Update();
 
 			bounds = mesh.bounds;
 			surfaceAxes = mesh.surfaceAxes;
+
+			base.Update();
 		}
 
 		public override Collision CheckCollision(Shape other) {

@@ -14,10 +14,8 @@ public class MeshCollisionTest : MonoBehaviour {
 	MeshShape b;
 
 	void Start () {
-		a = new MeshShape();
-		a.source = Mesh2.square.Clone();
-		b = new MeshShape();
-		b.source = Mesh2.square.Clone();
+		a = new MeshShape(Mesh2.square);
+		b = new MeshShape(Mesh2.square);
 	}
 	
 	void Update () {

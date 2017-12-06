@@ -18,6 +18,11 @@ namespace Cell {
 			area.Fit(bounds, scale);
 		}
 
+		public override void Update() {
+			if (grid != null)
+				grid.Update(this);
+		}
+
 		public abstract Collision CheckCollision(Shape other);
 		public abstract Line Project(Vec2 axis);
 

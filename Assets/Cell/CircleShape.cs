@@ -21,6 +21,7 @@ namespace Cell {
 				bounds = new Bounds2(transform.position, Vec2.one * scaleRadius * 2);
 				lastRadius = radius;
 			}
+			base.Update();
 		}
 
 		public override Collision CheckCollision(Shape other) {

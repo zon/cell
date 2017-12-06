@@ -21,67 +21,58 @@ namespace Cell {
 			}
 		}
 
-		public void Add(Body body) {
-			body.shape.grid = this;
+		public void Add(Shape shape) {
+			shape.grid = this;
 		}
 
-		public void Remove(Body body) {
-			RemoveBody(body);
-			body.shape.grid = null;
+		public void Remove(Shape shape) {
+			RemoveShape(shape);
+			shape.grid = null;
 		}
 
-		public HashSet<Body> Get(int minX, int minY, int maxX, int maxY) {
-			var result = new HashSet<Body>();
+		public HashSet<Shape> Get(int minX, int minY, int maxX, int maxY) {
+			var result = new HashSet<Shape>();
 			var xStart = Math.Max(minX, 0);
 			var xEnd = Math.Min(maxX, size - 1);
 			var yStart = Math.Max(minY, 0);
 			var yEnd = Math.Min(maxY, size - 1);
 			for (var y = yStart; y <= yEnd; y++) {
 				for (var x = xStart; x <= xEnd; x++) {
-					result.UnionWith(cells[x, y].bodies);
+					result.UnionWith(cells[x, y].shapes);
 				}
 			}
 			return result;
 		}
 
-		public HashSet<Body> Get(Area area) {
+		public HashSet<Shape> Get(Area area) {
 			return Get(area.min.x, area.min.y, area.max.x, area.max.y);
 		}
 
-		public List<Collision> CheckCollision(Body body) {
-			var neighbors = Get(body.shape.area);
+		public List<Collision> CheckCollision(Shape shape) {
+			var neighbors = Get(shape.area);
 			var collisions = new List<Collision>();
 			foreach (var neighbor in neighbors) {
-				var collision = body.shape.CheckCollision(neighbor.shape);
+				var collision = shape.CheckCollision(neighbor);
 				if (collision != null)
 					collisions.Add(collision);
 			}
 			return collisions;
 		}
 
-		public void Update(Body body) {
-			if (body.shape.transform.altered) {
-				RemoveBody(body);
-				AddBody(body);
+		public void Update(Shape shape) {
+			if (shape.transform.altered) {
+				RemoveShape(shape);
+				AddShape(shape);
 			}
 		}
 
-		void AddObstacle(Obstacle obstacle) {
-			obstacle.shape.FitArea(scale);
-			Loop(obstacle.shape.area, c => c.obstacles.Add(obstacle));
+		void AddShape(Shape shape) {
+			shape.FitArea(scale);
+			Loop(shape.area, c => c.shapes.Add(shape));
 		}
 
-		void RemoveObstacle(Obstacle obstacle) {
-			Loop(obstacle.shape.area, c => c.obstacles.Remove(obstacle));
-		}
-
-		void AddBody(Body body) {
-			body.shape.FitArea(scale);
-			Loop(body.shape.area, c => c.bodies.Add(body));
-		}
-
-		void RemoveBody(Body body) {
-			Loop(body.shape.area, c => c.bodies.Remove(body));
+		void RemoveShape(Shape shape) {
+			Loop(shape.area, c => c.shapes.Remove(shape));
 		}
 
 		void Loop(Area area, Action<Cell> callback) {

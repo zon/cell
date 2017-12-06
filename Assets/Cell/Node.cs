@@ -19,21 +19,30 @@ namespace Cell {
 			all.Add(this);
 		}
 
-		public B GetBehavior<B>(B behavior) where B : Behavior {
+		public B GetBehavior<B>() where B : Behavior {
 			Behavior res;
-			if (behaviors.TryGetValue(behavior.GetType(), out res))
+			if (behaviors.TryGetValue(typeof(B), out res))
 				return (B) res;
 			else
 				return default(B);
 		}
 
-		public void AddBehavior(Behavior behavior) {
+		public B GetAddBehavior<B>(Func<B> create) where B : Behavior {
+			var type = typeof(B);
+			Behavior behavior;
+			if (!behaviors.TryGetValue(type, out behavior))
+				behavior = create();
+			return (B) behavior;
+		}
+
+		public B AddBehavior<B>(B behavior) where B : Behavior {
 			var type = behavior.GetType();
 			RemoveBehavior(behavior, false);
 			behaviors.Add(type, behavior);
 			behavior.node = this;
 			Behavior.Add(behavior);
 			behavior.Setup();
+			return behavior;
 		}
 
 		public bool RemoveBehavior(Behavior behavior) {
@@ -56,6 +65,10 @@ namespace Cell {
 				RemoveBehavior(pair.Value);
 			RemoveBehavior(transform);
 			all.Remove(this);
+		}
+
+		public override string ToString() {
+			return string.Format("Node({0})", name);
 		}
 
 		static int autoId;
