@@ -35,7 +35,7 @@ public class MeshShapeView : MonoBehaviour {
 
 	static Material _material;
 
-	static Material material {
+	public static Material material {
 		get {
 			if (_material == null)
 				_material = new Material(Shader.Find("Sprites/Default"));

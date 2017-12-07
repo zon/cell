@@ -9,7 +9,11 @@ public static class Console {
 		for (var o = 0; o < objects.Length; o++) {
 			if (o != 0)
 				text += ", ";
-			text += objects[o].ToString();
+			var obj = objects[o];
+			if (obj != null)
+				text += objects[o].ToString();
+			else
+				text += "null";
 		}
 		Debug.Log(text);
 	}

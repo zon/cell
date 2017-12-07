@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 173783903}
-  aRotationRate: 45
+  aRotationRate: 0
   aScale: {x: 2, y: 2}
   bScale: {x: 2, y: 2}
 --- !u!4 &356712990

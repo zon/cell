@@ -12,7 +12,7 @@ public class GridTest : MonoBehaviour {
 
 	Grid grid;
 	MeshShapeView[] obstacles;
-	MeshShapeView follower;
+	CircleShapeView follower;
 
 	void Start () {
 		grid = new Grid(20, 0.75);
@@ -33,20 +33,21 @@ public class GridTest : MonoBehaviour {
 			obstacles[o] = view;
 		}
 
-		var square = new Node("Follower").AddBehavior(new MeshShape(Mesh2.square));
-		grid.Add(square);
+		var circle = new Node("Follower").AddBehavior(new CircleShape());
+		grid.Add(circle);
 
-		follower = new GameObject(square.node.name).AddComponent<MeshShapeView>();
-		follower.Attach(square, Color.green);
+		follower = new GameObject(circle.node.name).AddComponent<CircleShapeView>();
+		follower.Attach(circle, Color.green);
 	}
 	
 	void Update () {
 		follower.shape.transform.position = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
 		follower.shape.transform.rotation = rotation;
-		follower.shape.transform.scale = scale.ToCell();
+		follower.shape.radius = Mathf.Max(scale.x, scale.y) / 2;
 
 		Behavior.Loop<Cell.Transform>(t => t.Update());
 		Behavior.Loop<MeshShape>(s => s.Update());
+		Behavior.Loop<CircleShape>(s => s.Update());
 		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
 		
 		var collisions = grid.CheckCollision(follower.shape);
@@ -61,6 +62,6 @@ public class GridTest : MonoBehaviour {
 		}
 
 		grid.DrawCells(follower.shape, Color.magenta);
-		follower.shape.mesh.DebugDraw(Color.green);
+		// follower.shape.mesh.DebugDraw(Color.green);
 	}
 }

@@ -24,15 +24,6 @@ namespace Cell {
 			base.Update();
 		}
 
-		public override Collision CheckCollision(Shape other) {
-			if (other is MeshShape)
-				return Collision.CheckAxes (this, (MeshShape) other);
-			else if (other is CircleShape)
-				return Collision.CheckRadius (this, (CircleShape) other);
-			else
-				return null;
-		}
-
 		public override Line Project(Vec2 axis) {
 			var p = transform.position.Dot(axis);
 			return new Line(p - scaleRadius, p + scaleRadius);

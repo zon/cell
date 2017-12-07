@@ -14,16 +14,19 @@ namespace Cell {
 			area = new Area();
 		}
 
-		public void FitArea(double scale) {
-			area.Fit(bounds, scale);
-		}
-
 		public override void Update() {
 			if (grid != null)
 				grid.Update(this);
 		}
 
-		public abstract Collision CheckCollision(Shape other);
+		public void FitArea(double scale) {
+			area.Fit(bounds, scale);
+		}
+
+		public Collision CheckCollision(Shape other) {
+			return Collision.Check(this, other);
+		}
+
 		public abstract Line Project(Vec2 axis);
 
 	}

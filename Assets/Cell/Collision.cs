@@ -12,20 +12,28 @@ namespace Cell {
 			this.overlap = overlap;
 		}
 
-		public static Collision CheckAxes(Shape aBody, Shape bBody) {
-			if (aBody == bBody)
+		public static Collision Check(Shape aShape, Shape bShape) {
+			if (aShape == bShape)
 				return null;
+			if (aShape is MeshShape || bShape is MeshShape)
+				return CheckAxes(aShape, bShape);
+			else
+				return CheckRadius((CircleShape) aShape, (CircleShape) bShape);
+		}
 
+		static Collision CheckAxes(Shape aShape, Shape bShape) {
 			var minOverlap = double.PositiveInfinity;
 			var minOverlapVector = Vec2.zero;
 
 			var axes = new HashSet<Vec2> ();
-			axes.UnionWith (aBody.surfaceAxes);
-			axes.UnionWith (bBody.surfaceAxes);
+			axes.UnionWith (aShape.surfaceAxes);
+			axes.UnionWith (bShape.surfaceAxes);
+			if (aShape is CircleShape || bShape is CircleShape)
+				axes.Add((bShape.transform.position - aShape.transform.position).Normalized());
 			foreach (var axis in axes) {
 
-				var a = aBody.Project (axis);
-				var b = bBody.Project (axis);
+				var a = aShape.Project (axis);
+				var b = bShape.Project (axis);
 
 				Draw.Line(axis * b.min, axis * b.max, UnityEngine.Color.cyan);
 				Draw.Line(axis * a.min, axis * a.max, UnityEngine.Color.magenta);
@@ -42,20 +50,20 @@ namespace Cell {
 				}
 			}
 
-			var delta = bBody.transform.position - aBody.transform.position;
+			var delta = bShape.transform.position - aShape.transform.position;
 			if (delta.Dot (minOverlapVector) > 0)
 				minOverlapVector *= -1;
 
-			return new Collision (bBody, minOverlapVector);
+			return new Collision (bShape, minOverlapVector);
 		}
 
-		public static Collision CheckRadius(CircleShape aBody, CircleShape bBody) {
-			if (aBody == bBody)
+		static Collision CheckRadius(CircleShape aCircle, CircleShape bCircle) {
+			if (aCircle == bCircle)
 				return null;
-			var delta = bBody.transform.position - aBody.transform.position;
-			var min = bBody.radius + aBody.radius;
+			var delta = bCircle.transform.position - aCircle.transform.position;
+			var min = bCircle.radius + aCircle.radius;
 			if (delta.sqrMagnitude < min * min) {
-				return new Collision(bBody, delta.Normalized() * (min - delta.magnitude));
+				return new Collision(bCircle, delta.Normalized() * (min - delta.magnitude));
 			} else {
 				return null;
 			}

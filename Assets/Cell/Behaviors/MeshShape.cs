@@ -34,10 +34,6 @@ namespace Cell {
 			base.Update();
 		}
 
-		public override Collision CheckCollision(Shape other) {
-			return Collision.CheckAxes (this, other);
-		}
-
 		public override Line Project(Vec2 axis) {
 			var min = double.PositiveInfinity;
 			var max = double.NegativeInfinity;
