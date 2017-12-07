@@ -9,7 +9,7 @@ namespace Cell {
 		public Vec2 destination = Vec2.zero;
 
 		public CircleShape shape { get; private set; }
-		public bool moving { get; private set; }
+		public State state { get; private set; }
 		public Vec2 velocity { get; private set; }
 
 		public override void Setup() {
@@ -17,29 +17,46 @@ namespace Cell {
 		}
 
 		public override void Update() {
-			if (!moving)
+			if (state == State.Still)
 				return;
 			
 			var target = Vec2.zero;
-			var trip = destination - transform.position;
-			if (trip.sqrMagnitude > sqrTheshold)
-				target = (destination - transform.position).Normalized() * speed;
+
+			if (state == State.Moving) {
+				var trip = destination - transform.position;
+				if (trip.sqrMagnitude > sqrTheshold)
+					target = (destination - transform.position).Normalized() * speed;
+				else
+					state = State.Stopping;
+			}
 
 			velocity += (target - velocity).Clamp(acceleration * Tick.delta);
 			
 			transform.position += velocity * Tick.delta;
 
 			if (velocity == Vec2.zero)
-				moving = false;
+				state = State.Still;
 		}
 
 		public void MoveTo(Vec2 position) {
 			destination = position;
-			moving = true;
+			state = State.Moving;
 		}
 
-		static double threshold = 0.02;
+		// t = v / a
+		// (v * t) / 2
+		// double GetStopDistance() {
+		// 	return velocity.Dot(velocity / acceleration) / 2;
+		// }
+
+		static double threshold = 0.25;
 		static double sqrTheshold = threshold * threshold;
+
+		public enum State {
+			Still,
+			Moving,
+			Stopping
+		}
 		
 	}
 

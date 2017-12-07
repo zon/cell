@@ -239,3 +239,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 1112256733}
   radius: 0.5
+  speed: 4
+  acceleration: 8
