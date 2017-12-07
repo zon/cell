@@ -23,9 +23,9 @@ namespace Cell {
 			var target = Vec2.zero;
 			var trip = destination - transform.position;
 			if (trip.sqrMagnitude > sqrTheshold)
-				target = (destination - transform.position).Clamp(speed);
-			
-			velocity += target.Clamp(acceleration * Tick.delta);
+				target = (destination - transform.position).Normalized() * speed;
+
+			velocity += (target - velocity).Clamp(acceleration * Tick.delta);
 			
 			transform.position += velocity * Tick.delta;
 

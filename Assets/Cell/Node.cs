@@ -30,8 +30,10 @@ namespace Cell {
 		public B GetAddBehavior<B>(Func<B> create) where B : Behavior {
 			var type = typeof(B);
 			Behavior behavior;
-			if (!behaviors.TryGetValue(type, out behavior))
+			if (!behaviors.TryGetValue(type, out behavior)) {
 				behavior = create();
+				AddBehavior(behavior);
+			}
 			return (B) behavior;
 		}
 
