@@ -24,7 +24,8 @@ namespace Cell {
 
 			if (state == State.Moving) {
 				var trip = destination - transform.position;
-				if (trip.sqrMagnitude > sqrTheshold)
+				var stop = velocity.Dot(velocity / acceleration) / 2;
+				if (trip.sqrMagnitude > stop * stop)
 					target = (destination - transform.position).Normalized() * speed;
 				else
 					state = State.Stopping;
@@ -42,12 +43,6 @@ namespace Cell {
 			destination = position;
 			state = State.Moving;
 		}
-
-		// t = v / a
-		// (v * t) / 2
-		// double GetStopDistance() {
-		// 	return velocity.Dot(velocity / acceleration) / 2;
-		// }
 
 		static double threshold = 0.25;
 		static double sqrTheshold = threshold * threshold;
