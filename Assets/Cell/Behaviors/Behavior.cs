@@ -18,6 +18,13 @@ namespace Cell {
 		public virtual void PostUpdate() {}
 		public virtual void OnDestroy() {}
 
+		public B GetBehavior<B>() where B : Behavior {
+			if (node != null)
+				return node.GetBehavior<B>();
+			else
+				return default(B);
+		}
+
 		static Dictionary<Type, HashSet<Behavior>> all = new Dictionary<Type, HashSet<Behavior>>();
 
 		public static void Loop<B>(Action<B> callback) where B : Behavior {

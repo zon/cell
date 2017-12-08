@@ -48,7 +48,7 @@ namespace Cell {
 			return Get(area.min.x, area.min.y, area.max.x, area.max.y);
 		}
 
-		public List<Collision> CheckCollision(Shape shape) {
+		public List<Collision> GetCollisions(Shape shape) {
 			var neighbors = Get(shape.area);
 			var collisions = new List<Collision>();
 			foreach (var neighbor in neighbors) {

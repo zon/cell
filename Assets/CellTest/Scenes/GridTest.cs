@@ -50,7 +50,7 @@ public class GridTest : MonoBehaviour {
 		Behavior.Loop<CircleShape>(s => s.Update());
 		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
 		
-		var collisions = grid.CheckCollision(follower.shape);
+		var collisions = grid.GetCollisions(follower.shape);
 		var bodies = collisions.Select(c => c.shape);
 		for (var o = 0; o < obstacles.Length; o++) {
 			var ob = obstacles[o];

@@ -10,6 +10,7 @@ namespace Cell {
 		double lastRadius;
 
 		public double scaleRadius { get; private set; }
+		public double mass { get; private set; }
 
 		public CircleShape() : base() {
 			surfaceAxes = new HashSet<Vec2>();
@@ -18,7 +19,11 @@ namespace Cell {
 		public override void Update() {
 			if (transform.altered || radius != lastRadius) {
 				scaleRadius = radius * Math.Max(transform.scale.x, transform.scale.y);
+				
+				mass = Math.PI * scaleRadius * scaleRadius;
+
 				bounds = new Bounds2(transform.position, Vec2.one * scaleRadius * 2);
+				
 				lastRadius = radius;
 			}
 			base.Update();

@@ -13,11 +13,11 @@ public class BodyTest : MonoBehaviour {
 	CircleShapeView followerView;
 
 	void Start () {
+		Tick.Setup(Time.fixedDeltaTime);
+
 		follower = new Node("Follower").AddBehavior(new Body());
 		follower.shape.radius = radius;
 		followerView = follower.shape.CreateView();
-
-		Tick.Setup(Time.fixedDeltaTime);
 	}
 	
 	void Update () {
@@ -35,6 +35,7 @@ public class BodyTest : MonoBehaviour {
 		Behavior.Loop<MeshShape>(s => s.Update());
 		Behavior.Loop<CircleShape>(s => s.Update());
 		Behavior.Loop<Body>(b => b.Update());
+		Behavior.Loop<Body>(b => b.PhysicsUpdate());
 		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
 	}
 

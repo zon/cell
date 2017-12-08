@@ -29,14 +29,14 @@ namespace Cell {
 			axes.UnionWith (aShape.surfaceAxes);
 			axes.UnionWith (bShape.surfaceAxes);
 			if (aShape is CircleShape || bShape is CircleShape)
-				axes.Add((bShape.transform.position - aShape.transform.position).Normalized());
+				axes.Add((bShape.bounds.center - aShape.bounds.center).Normalized());
 			foreach (var axis in axes) {
 
 				var a = aShape.Project (axis);
 				var b = bShape.Project (axis);
 
-				Draw.Line(axis * b.min, axis * b.max, UnityEngine.Color.cyan);
-				Draw.Line(axis * a.min, axis * a.max, UnityEngine.Color.magenta);
+				// Draw.Line(axis * b.min, axis * b.max, UnityEngine.Color.cyan);
+				// Draw.Line(axis * a.min, axis * a.max, UnityEngine.Color.magenta);
 
 				var overlap = a.Overlap (b);
 				if (overlap > 0) {
@@ -50,7 +50,7 @@ namespace Cell {
 				}
 			}
 
-			var delta = bShape.transform.position - aShape.transform.position;
+			var delta = bShape.bounds.center - aShape.bounds.center;
 			if (delta.Dot (minOverlapVector) > 0)
 				minOverlapVector *= -1;
 

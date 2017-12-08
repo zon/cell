@@ -23,6 +23,13 @@ namespace Cell {
 			area.Fit(bounds, scale);
 		}
 
+		public List<Collision> GetCollisions() {
+			if (grid != null)
+				return grid.GetCollisions(this);
+			else
+				return new List<Collision>();
+		}
+
 		public Collision CheckCollision(Shape other) {
 			return Collision.Check(this, other);
 		}
