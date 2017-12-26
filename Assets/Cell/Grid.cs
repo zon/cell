@@ -32,15 +32,7 @@ namespace Cell {
 
 		public HashSet<Shape> Get(int minX, int minY, int maxX, int maxY) {
 			var result = new HashSet<Shape>();
-			var xStart = Math.Max(minX, 0);
-			var xEnd = Math.Min(maxX, size - 1);
-			var yStart = Math.Max(minY, 0);
-			var yEnd = Math.Min(maxY, size - 1);
-			for (var y = yStart; y <= yEnd; y++) {
-				for (var x = xStart; x <= xEnd; x++) {
-					result.UnionWith(cells[x, y].shapes);
-				}
-			}
+			Loop(minX, minY, maxX, maxX, c => result.UnionWith(c.shapes));
 			return result;
 		}
 
@@ -52,6 +44,8 @@ namespace Cell {
 			var neighbors = Get(shape.area);
 			var collisions = new List<Collision>();
 			foreach (var neighbor in neighbors) {
+				if (neighbor.isTrigger)
+					continue;
 				var collision = shape.CheckCollision(neighbor);
 				if (collision != null)
 					collisions.Add(collision);
@@ -75,16 +69,20 @@ namespace Cell {
 			Loop(shape.area, c => c.shapes.Remove(shape));
 		}
 
-		void Loop(Area area, Action<Cell> callback) {
-			var xStart = Math.Max(area.min.x, 0);
-			var xEnd = Math.Min(area.max.x, size - 1);
-			var yStart = Math.Max(area.min.y, 0);
-			var yEnd = Math.Min(area.max.y, size - 1);
+		void Loop(int minX, int minY, int maxX, int maxY, Action<Cell> callback) {
+			var xStart = Math.Max(minX, 0);
+			var xEnd = Math.Min(maxX, size - 1);
+			var yStart = Math.Max(minY, 0);
+			var yEnd = Math.Min(maxY, size - 1);
 			for (var y = yStart; y <= yEnd; y++) {
 				for (var x = xStart; x <= xEnd; x++) {
 					callback(cells[x, y]);
 				}
 			}
+		}
+
+		void Loop(Area area, Action<Cell> callback) {
+			Loop(area.min.x, area.min.y, area.max.x, area.max.y, callback);
 		}
 
 	}

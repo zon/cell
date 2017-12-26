@@ -240,8 +240,8 @@ MonoBehaviour:
   aColor: {r: 1, g: 0.12199998, b: 0.12199998, a: 1}
   aRadius: 0.5
   aPosition: {x: 2, y: 5.5}
-  aVelocity: {x: 2, y: 0.1}
+  aVelocity: {x: 2, y: -1}
   bColor: {r: 0, g: 0, b: 1, a: 1}
   bRadius: 0.5
   bPosition: {x: 8, y: 5}
-  bVelocity: {x: -2, y: 0}
+  bVelocity: {x: -2, y: -1}

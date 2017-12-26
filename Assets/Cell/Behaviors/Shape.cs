@@ -5,6 +5,7 @@ namespace Cell {
 
 	public abstract class Shape : Behavior {
 		public readonly Area area;
+		public bool isTrigger;
 		public Grid grid;
 
 		public Bounds2 bounds { get; protected set; }
