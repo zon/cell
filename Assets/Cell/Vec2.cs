@@ -92,7 +92,7 @@ namespace Cell {
 		}
 
 		public override string ToString() {
-			return string.Format("Vector2({0}, {1})", x, y);
+			return string.Format("Vec2({0}, {1})", x, y);
 		}
 
 		public Vec2 Normalized() {
