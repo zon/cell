@@ -25,10 +25,7 @@ public class CircleCollisionTest : MonoBehaviour {
 		b.transform.localPosition = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
 		b.transform.localScale = bScale.ToCell();
 
-		Behavior.Loop<Cell.Transform>(t => t.Update());
-		Behavior.Loop<MeshShape>(s => s.Update());
-		Behavior.Loop<CircleShape>(s => s.Update());
-		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
+		Behavior.CoreUpdate();
 
 		var collision = b.CheckCollision(a);
 		if (collision != null) {
