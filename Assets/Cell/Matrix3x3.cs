@@ -18,7 +18,7 @@ namespace Cell {
 			double yx, double yy, double yz,
 			double zx, double zy, double zz
 		) {
-            elements = new double[3, 3] {
+            elements = new double[,] {
 				{ xx, xy, xz },
 				{ yx, yy, yz },
 				{ zx, zy, zz }
@@ -51,13 +51,7 @@ namespace Cell {
 			if (obj == null || obj.GetType() != GetType())
 				return false;
 			var other = (Matrix3x3) obj;
-			for (var x = 0; x < 3; x++) {
-				for (var y = 0; y < 3; y++) {
-					if (other [x, y] != this [x, y])
-						return false;
-				}
-			}
-			return true;
+			return this == other;
 		}
 
 		public override int GetHashCode() {
@@ -90,6 +84,24 @@ namespace Cell {
 				}
 			}
 			return new Matrix3x3 (res);
+		}
+
+		public static bool operator ==(Matrix3x3 a, Matrix3x3 b) {
+			var width = a.elements.GetLength(0);
+			var height = a.elements.GetLength(1);
+			if (b.elements.GetLength(0) != width || b.elements.GetLength(1) != height)
+				return false;
+			for (var x = 0; x < width; x++) {
+				for (var y = 0; y < height; y++) {
+					if (b.elements [x, y] != a.elements [x, y])
+						return false;
+				}
+			}
+			return true;
+		}
+
+		public static bool operator !=(Matrix3x3 a, Matrix3x3 b) {
+			return !(a == b);
 		}
 
 		public static Matrix3x3 operator +(Matrix3x3 a, Matrix3x3 b) {
@@ -155,9 +167,11 @@ namespace Cell {
 		}
 
 		public static Matrix3x3 Rotate(double radians) {
+			var x = Vec2.FromRadians(radians);
+			var y = x.CounterPerpendicular();
 			return new Matrix3x3 (new double[,] {
-				{ Math.Cos(radians), -Math.Sin(radians), 0 },
-				{ Math.Sin(radians), Math.Cos(radians), 0 },
+				{ x.x, y.x, 0 },
+				{ x.y, y.y, 0 },
 				{ 0, 0, 1 }
 			});
 		}
@@ -175,10 +189,14 @@ namespace Cell {
 		}
 
 		public static Matrix3x3 TRS(Vec2 offset, double radians, Vec2 scale) {
-			var t = Matrix3x3.Translate(offset);
-			var r = Matrix3x3.Rotate(radians);
-			var s = Matrix3x3.Scale(scale);
-			return t * r * s;
+			var s = Vec2.FromRadians(radians);
+			var x = s * scale.x;
+			var y = s.CounterPerpendicular() * scale.y;
+			return new Matrix3x3 (new double[,] {
+				{ x.x, y.x, offset.x },
+				{ x.y, y.y, offset.y },
+				{ 0, 0, 1}
+			});
 		}
 
 		public static readonly Matrix3x3 identity = new Matrix3x3(new double[,] {

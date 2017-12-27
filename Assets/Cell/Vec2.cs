@@ -125,8 +125,12 @@ namespace Cell {
 				return new Vec2(x, y);
 		}
 
-		public double Radians(Vec2 other) {
+		public double RadiansTo(Vec2 other) {
 			return Math.Acos(Dot(other));
+		}
+
+		public double Radians() {
+			return Math.Atan2(y, x);
 		}
 
 		public Vec2 Floor() {
@@ -153,7 +157,9 @@ namespace Cell {
 		public const double deg2rad = (Math.PI * 2) / 360;
 		public const double rad2deg = 360 / (Math.PI * 2);
 
-
+		public static Vec2 FromRadians(double radians) {
+			return new Vec2(Math.Cos(radians), Math.Sin(radians));
+		}
 
 	}
 
