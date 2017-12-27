@@ -8,16 +8,19 @@ public class PedestrianTest : MonoBehaviour {
 	public double radius = 0.5;
 	public double speed = 2;
 	public double acceleration = 2;
-
+	
+	Grid grid;
 	Pedestrian follower;
-	CircleShapeView followerView;
 
 	void Start () {
 		Tick.Setup(Time.fixedDeltaTime);
+		
+		grid = new Grid(20, 0.75);
 
 		follower = new Node("Follower").AddBehavior(new Pedestrian());
 		follower.shape.radius = radius;
-		followerView = follower.shape.CreateView();
+		grid.Add(follower.shape);
+		follower.shape.CreateView();
 	}
 	
 	void Update () {
@@ -31,12 +34,7 @@ public class PedestrianTest : MonoBehaviour {
 		follower.speed = speed;
 		follower.acceleration = acceleration;
 
-		Behavior.Loop<Cell.Transform>(t => t.Update());
-		Behavior.Loop<MeshShape>(s => s.Update());
-		Behavior.Loop<CircleShape>(s => s.Update());
-		Behavior.Loop<Pedestrian>(b => b.Update());
-		Behavior.Loop<Pedestrian>(b => b.PhysicsUpdate());
-		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
+		Behavior.CoreUpdate();
 	}
 
 }

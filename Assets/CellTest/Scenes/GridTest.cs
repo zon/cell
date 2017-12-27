@@ -45,10 +45,7 @@ public class GridTest : MonoBehaviour {
 		follower.shape.transform.localRotation = rotation;
 		follower.shape.radius = Mathf.Max(scale.x, scale.y) / 2;
 
-		Behavior.Loop<Cell.Transform>(t => t.Update());
-		Behavior.Loop<MeshShape>(s => s.Update());
-		Behavior.Loop<CircleShape>(s => s.Update());
-		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
+		Behavior.CoreUpdate();
 		
 		var collisions = grid.GetCollisions(follower.shape);
 		var bodies = collisions.Select(c => c.shape);
