@@ -28,11 +28,12 @@ namespace Cell {
 		static Dictionary<Type, HashSet<Behavior>> all = new Dictionary<Type, HashSet<Behavior>>();
 
 		public static void CoreUpdate() {
-			Loop<Transform>(t => t.Update());
-			Loop<MeshShape>(s => s.Update());
-			Loop<CircleShape>(s => s.Update());
 			Loop<Pedestrian>(b => b.Update());
 			Loop<Pedestrian>(b => b.PhysicsUpdate());
+			Loop<Transform>(t => t.Update());
+			Loop<Transform>(t => t.ChildUpdate());
+			Loop<MeshShape>(s => s.Update());
+			Loop<CircleShape>(s => s.Update());
 			Loop<Transform>(t => t.PostUpdate());
 		}
 

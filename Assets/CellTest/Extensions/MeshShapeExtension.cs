@@ -11,4 +11,10 @@ public static class MeshShapeExtension {
 		return view;
 	}
 
+	public static MeshShapeView CreateView(this MeshShape shape, Color color) {
+		var view = new GameObject(shape.node.name).AddComponent<MeshShapeView>();
+		view.Attach(shape, color);
+		return view;
+	}
+
 }

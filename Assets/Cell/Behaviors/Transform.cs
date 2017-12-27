@@ -4,19 +4,21 @@ using System.Collections.Generic;
 namespace Cell {
 
 	public class Transform : Behavior {
+		public bool altered;
+
 		Vec2 _localPosition;
 		double _localRotation;
 		Vec2 _localScale = Vec2.one;
-		Vec2 _position;
-		Vec2 _scale = Vec2.one;
-		Transform _parent;
 
 		public readonly HashSet<Transform> children = new HashSet<Transform>();
 		
 		public Transform parent { get; private set; }
 		public bool isRoot { get; private set; }
+		public Matrix3x3 localMatrix { get; private set; }
 		public Matrix3x3 matrix { get; private set; }
-		public bool altered { get; private set; }
+		public Vec2 position { get; private set; }
+		public double rotation { get; private set; }
+		public Vec2 scale { get; private set; }
 
 		public Vec2 localPosition {
 			get {
@@ -24,10 +26,6 @@ namespace Cell {
 			}
 			set {
 				_localPosition = value;
-				if (_parent != null)
-					_position = _parent.position + (_localPosition * _parent.scale);
-				else
-					_position = _localPosition;
 				altered = true;
 			}
 		}
@@ -48,38 +46,14 @@ namespace Cell {
 			}
 			set {
 				_localScale = value;
-				_scale = (_parent != null ? _parent.scale : Vec2.one) * _localScale;
-				altered = true;
-			}
-		}
-
-		public Vec2 position {
-			get {
-				return _position;
-			}
-			set {
-				_position = value;
-				if (_parent != null)
-					_localPosition = (_position - _parent.position) / _parent.scale;
-				else
-					_localPosition = _position;
-				altered = true;
-			}
-		}
-
-		public Vec2 scale {
-			get {
-				return _scale;
-			}
-			set {
-				_scale = value;
-				_localScale = _scale / (_parent != null ? _parent.scale : Vec2.one);
 				altered = true;
 			}
 		}
 
 		public Transform() {
+			localMatrix = Matrix3x3.identity;
 			matrix = Matrix3x3.identity;
+			scale = Vec2.one;
 			altered = true;
 		}
 
@@ -90,19 +64,33 @@ namespace Cell {
 			isRoot = parent == null;
 			if (!isRoot)
 				parent.children.Add(this);
-			localPosition = _localPosition;
-			localScale = _localScale;
+			altered = true;
 		}
 
 		public override void Update() {
-			if (altered)
-				ForceUpdate();
+			if (!altered) return;
+
+			localMatrix = Matrix3x3.TRS(_localPosition, _localRotation, _localScale);
+
+			foreach (var child in children)
+				child.altered = true;
 		}
 
-		public void ForceUpdate() {
-			matrix = Matrix3x3.TRS(_position, _localRotation, _scale);
-			foreach (var child in children)
-				child.ForceUpdate();
+		public void ChildUpdate() {
+			if (!altered) return;
+
+			if (parent != null) {
+				matrix = parent.matrix * localMatrix;
+				position = parent.matrix * _localPosition;
+				rotation = parent.rotation + _localRotation;
+				scale = parent.scale * _localScale;
+
+			} else {
+				matrix = localMatrix;
+				position = _localPosition;
+				rotation = _localRotation;
+				scale = _localScale;
+			}
 		}
 
 		public override void PostUpdate() {
