@@ -30,12 +30,7 @@ public class ElasticCollisionTest : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		Behavior.Loop<Pedestrian>(b => b.Update());
-		Behavior.Loop<Pedestrian>(b => b.PhysicsUpdate());
-		Behavior.Loop<Cell.Transform>(t => t.Update());
-		Behavior.Loop<MeshShape>(s => s.Update());
-		Behavior.Loop<CircleShape>(s => s.Update());
-		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
+		Behavior.CoreUpdate();
 	}
 
 	void Update() {
