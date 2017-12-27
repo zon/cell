@@ -14,7 +14,7 @@ public class TRSTest : MonoBehaviour {
 	MeshShape body;
 	
 	void Start () {
-		body = new MeshShape(Mesh2.square);
+		body = new Node("Shape").AddBehavior(new MeshShape(Mesh2.square));
 	}
 	
 	void Update () {
@@ -24,7 +24,7 @@ public class TRSTest : MonoBehaviour {
 		body.transform.localRotation += (rotationRate / translationDuration) * Vec2.deg2rad * Time.deltaTime;
 		body.transform.localScale = Vector2.Lerp(minScale, maxScale, t).ToCell();
 
-		body.Update();
+		Behavior.CoreUpdate();
 
 		body.mesh.DebugDraw(Color.white);
 	}
