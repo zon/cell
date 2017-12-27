@@ -60,7 +60,7 @@ namespace Cell {
 		static Collision CheckRadius(CircleShape aCircle, CircleShape bCircle) {
 			if (aCircle == bCircle)
 				return null;
-			var delta = bCircle.transform.position - aCircle.transform.position;
+			var delta = bCircle.transform.localPosition - aCircle.transform.localPosition;
 			var min = bCircle.radius + aCircle.radius;
 			if (delta.sqrMagnitude < min * min) {
 				return new Collision(bCircle, delta.Normalized() * (min - delta.magnitude));

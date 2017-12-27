@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cell {
 
-	public class Body : Behavior {
+	public class Pedestrian : Behavior {
 		public double speed = 1;
 		public double acceleration = 1;
 		public Vec2 destination;
@@ -35,10 +35,10 @@ namespace Cell {
 			var target = Vec2.zero;
 
 			if (state == State.Moving) {
-				var trip = destination - transform.position;
+				var trip = destination - transform.localPosition;
 				var stop = velocity.Dot(velocity / acceleration) / 2;
 				if (trip.sqrMagnitude > stop * stop)
-					target = (destination - transform.position).Normalized() * speed;
+					target = (destination - transform.localPosition).Normalized() * speed;
 				else
 					state = State.Stopping;
 			}
@@ -55,10 +55,10 @@ namespace Cell {
 			for (var c = 0; c < collisions.Count; c++) {
 				var collision = collisions[c];
 
-				var other = collision.shape.GetBehavior<Body>();
+				var other = collision.shape.GetBehavior<Pedestrian>();
 				if (other != null) {
 
-					var normal = (transform.position - other.transform.position).Normalized();
+					var normal = (transform.localPosition - other.transform.localPosition).Normalized();
 					var a = velocity.Dot(normal);
 					var b = other.velocity.Dot(normal);
 
@@ -71,12 +71,12 @@ namespace Cell {
 					other.shape.Update();
 				
 				} else {
-					transform.position += collision.overlap;
+					transform.localPosition += collision.overlap;
 					shape.Update();
 				}
 			}
 			
-			transform.position += velocity * Tick.delta;
+			transform.localPosition += velocity * Tick.delta;
 
 			if (velocity == Vec2.zero)
 				state = State.Still;

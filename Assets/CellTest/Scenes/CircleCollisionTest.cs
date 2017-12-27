@@ -19,11 +19,11 @@ public class CircleCollisionTest : MonoBehaviour {
 	}
 
 	void Update () {
-		a.transform.rotation += aRotationRate * Vec2.deg2rad * Time.deltaTime;
-		a.transform.scale = aScale.ToCell();
+		a.transform.localRotation += aRotationRate * Vec2.deg2rad * Time.deltaTime;
+		a.transform.localScale = aScale.ToCell();
 
-		b.transform.position = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
-		b.transform.scale = bScale.ToCell();
+		b.transform.localPosition = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
+		b.transform.localScale = bScale.ToCell();
 
 		Behavior.Loop<Cell.Transform>(t => t.Update());
 		Behavior.Loop<MeshShape>(s => s.Update());
@@ -32,7 +32,7 @@ public class CircleCollisionTest : MonoBehaviour {
 
 		var collision = b.CheckCollision(a);
 		if (collision != null) {
-			b.transform.position += collision.overlap;
+			b.transform.localPosition += collision.overlap;
 			a.mesh.DebugDraw(Color.red);
 		} else {
 			a.mesh.DebugDraw(Color.yellow);
@@ -43,7 +43,7 @@ public class CircleCollisionTest : MonoBehaviour {
 		if (!Application.isPlaying)
 			return;
 		Gizmos.color = Color.blue;
-		Gizmos.DrawWireSphere (b.transform.position.ToUnity (), (float) b.scaleRadius);
+		Gizmos.DrawWireSphere (b.transform.localPosition.ToUnity (), (float) b.scaleRadius);
 	}
 
 }

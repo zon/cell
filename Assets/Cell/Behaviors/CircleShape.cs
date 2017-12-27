@@ -18,11 +18,11 @@ namespace Cell {
 
 		public override void Update() {
 			if (transform.altered || radius != lastRadius) {
-				scaleRadius = radius * Math.Max(transform.scale.x, transform.scale.y);
+				scaleRadius = radius * Math.Max(transform.localScale.x, transform.localScale.y);
 				
 				mass = Math.PI * scaleRadius * scaleRadius;
 
-				bounds = new Bounds2(transform.position, Vec2.one * scaleRadius * 2);
+				bounds = new Bounds2(transform.localPosition, Vec2.one * scaleRadius * 2);
 				
 				lastRadius = radius;
 			}
@@ -30,7 +30,7 @@ namespace Cell {
 		}
 
 		public override Line Project(Vec2 axis) {
-			var p = transform.position.Dot(axis);
+			var p = transform.localPosition.Dot(axis);
 			return new Line(p - scaleRadius, p + scaleRadius);
 		}
 

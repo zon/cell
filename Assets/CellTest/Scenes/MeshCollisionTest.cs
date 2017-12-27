@@ -19,18 +19,18 @@ public class MeshCollisionTest : MonoBehaviour {
 	}
 	
 	void Update () {
-		a.transform.rotation += aRotationRate * Vec2.deg2rad * Time.deltaTime;
-		a.transform.scale = aScale.ToCell();
+		a.transform.localRotation += aRotationRate * Vec2.deg2rad * Time.deltaTime;
+		a.transform.localScale = aScale.ToCell();
 		a.Update();
 
-		b.transform.position = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
-		b.transform.rotation += bRotationRate * Vec2.deg2rad * Time.deltaTime;
-		b.transform.scale = bScale.ToCell();
+		b.transform.localPosition = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
+		b.transform.localRotation += bRotationRate * Vec2.deg2rad * Time.deltaTime;
+		b.transform.localScale = bScale.ToCell();
 		b.Update();
 
 		var collision = b.CheckCollision(a);
 		if (collision != null) {
-			b.transform.position += collision.overlap;
+			b.transform.localPosition += collision.overlap;
 			b.Update();
 		}
 

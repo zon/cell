@@ -8,7 +8,7 @@ namespace Cell {
 		public readonly int id;
 		public string name;
 		public readonly Transform transform;
-
+		
 		Dictionary<Type, Behavior> behaviors = new Dictionary<Type, Behavior>();
 
 		public Node(string name) {

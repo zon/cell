@@ -15,8 +15,8 @@ public class ElasticCollisionTest : MonoBehaviour {
 	public Vector2 bVelocity = new Vector2(-2, 0);
 
 	Grid grid;
-	Body a;
-	Body b;
+	Pedestrian a;
+	Pedestrian b;
 
 	void Start() {
 		Tick.Setup(Time.fixedDeltaTime);
@@ -30,8 +30,8 @@ public class ElasticCollisionTest : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		Behavior.Loop<Body>(b => b.Update());
-		Behavior.Loop<Body>(b => b.PhysicsUpdate());
+		Behavior.Loop<Pedestrian>(b => b.Update());
+		Behavior.Loop<Pedestrian>(b => b.PhysicsUpdate());
 		Behavior.Loop<Cell.Transform>(t => t.Update());
 		Behavior.Loop<MeshShape>(s => s.Update());
 		Behavior.Loop<CircleShape>(s => s.Update());
@@ -43,10 +43,10 @@ public class ElasticCollisionTest : MonoBehaviour {
 		grid.DrawCells(b.shape, bColor);
 	}
 
-	Body Create(string name, Color color, double radius, Vec2 position, Vec2 velocity) {
-		var body = new Node("Body "+ name).AddBehavior(new Body());
+	Pedestrian Create(string name, Color color, double radius, Vec2 position, Vec2 velocity) {
+		var body = new Node("Body "+ name).AddBehavior(new Pedestrian());
 		body.shape.radius = radius;
-		body.transform.position = position;
+		body.transform.localPosition = position;
 		body.velocity = velocity;
 		body.shape.CreateView(color);
 		return body;

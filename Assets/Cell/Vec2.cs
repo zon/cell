@@ -16,6 +16,19 @@ namespace Cell {
 			return x * x + y * y;
 		} }
 
+		public double this[int index] {
+			get {
+				switch (index) {
+					case 0:
+						return x;
+					case 1:
+						return y;
+					default:
+						throw new IndexOutOfRangeException();
+				}
+			}
+		}
+
 		public static Vec2 operator +(Vec2 a, Vec2 b) {
 			return new Vec2(a.x + b.x, a.y + b.y);
 		}
@@ -28,8 +41,24 @@ namespace Cell {
 			return new Vec2(v.x * d, v.y * d);
 		}
 
+		public static Vec2 operator *(double d, Vec2 v) {
+			return new Vec2(d * v.x, d * v.y);
+		}
+
+		public static Vec2 operator *(Vec2 a, Vec2 b) {
+			return new Vec2(a.x * b.x, a.y * b.y);
+		}
+
 		public static Vec2 operator /(Vec2 v, double d) {
 			return new Vec2(v.x / d, v.y / d);
+		}
+
+		public static Vec2 operator /(double d, Vec2 v) {
+			return new Vec2(d / v.x, d / v.y);
+		}
+
+		public static Vec2 operator /(Vec2 a, Vec2 b) {
+			return new Vec2(a.x / b.x, a.y / b.y);
 		}
 
 		public static bool operator ==(Vec2 a, Vec2 b) {

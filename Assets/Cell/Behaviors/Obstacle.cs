@@ -34,7 +34,7 @@ namespace Cell {
 		}
 
 		public void Snap(Coord coord) {
-			transform.position = coord * shape.grid.scale;
+			transform.localPosition = coord * shape.grid.scale;
 		}
 
 		public enum Kind {

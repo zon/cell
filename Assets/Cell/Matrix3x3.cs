@@ -13,6 +13,18 @@ namespace Cell {
 			this.elements = elements;
 		}
 
+		public Matrix3x3(
+			double xx, double xy, double xz,
+			double yx, double yy, double yz,
+			double zx, double zy, double zz
+		) {
+            elements = new double[3, 3] {
+				{ xx, xy, xz },
+				{ yx, yy, yz },
+				{ zx, zy, zz }
+			};
+        }
+		
 		public double this[int row, int column] {
 			get {
 				return elements [row, column];
@@ -169,7 +181,7 @@ namespace Cell {
 			return t * r * s;
 		}
 
-		public static Matrix3x3 identity = new Matrix3x3(new double[,] {
+		public static readonly Matrix3x3 identity = new Matrix3x3(new double[,] {
 			{ 1, 0, 0 },
 			{ 0, 1, 0 },
 			{ 0, 0, 1 }

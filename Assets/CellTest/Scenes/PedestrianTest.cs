@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cell;
 
-public class BodyTest : MonoBehaviour {
+public class PedestrianTest : MonoBehaviour {
 	public new Camera camera;
 	public double radius = 0.5;
 	public double speed = 2;
 	public double acceleration = 2;
 
-	Body follower;
+	Pedestrian follower;
 	CircleShapeView followerView;
 
 	void Start () {
 		Tick.Setup(Time.fixedDeltaTime);
 
-		follower = new Node("Follower").AddBehavior(new Body());
+		follower = new Node("Follower").AddBehavior(new Pedestrian());
 		follower.shape.radius = radius;
 		followerView = follower.shape.CreateView();
 	}
@@ -34,8 +34,8 @@ public class BodyTest : MonoBehaviour {
 		Behavior.Loop<Cell.Transform>(t => t.Update());
 		Behavior.Loop<MeshShape>(s => s.Update());
 		Behavior.Loop<CircleShape>(s => s.Update());
-		Behavior.Loop<Body>(b => b.Update());
-		Behavior.Loop<Body>(b => b.PhysicsUpdate());
+		Behavior.Loop<Pedestrian>(b => b.Update());
+		Behavior.Loop<Pedestrian>(b => b.PhysicsUpdate());
 		Behavior.Loop<Cell.Transform>(t => t.PostUpdate());
 	}
 

@@ -21,11 +21,11 @@ public class GridTest : MonoBehaviour {
 		var size = 10f;
 		for (var o = 0; o < obstacleCount; o++) {
 			var shape = new Node("Obstacle "+ o).AddBehavior(new MeshShape(Mesh2.square));
-			shape.transform.position = new Vector2(
+			shape.transform.localPosition = new Vector2(
 				Random.Range(0, size),
 				Random.Range(0, size)
 			).ToCell();
-			shape.transform.scale = scale.ToCell();
+			shape.transform.localScale = scale.ToCell();
 			grid.Add(shape);
 
 			var view = new GameObject(shape.node.name).AddComponent<MeshShapeView>();
@@ -41,8 +41,8 @@ public class GridTest : MonoBehaviour {
 	}
 	
 	void Update () {
-		follower.shape.transform.position = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
-		follower.shape.transform.rotation = rotation;
+		follower.shape.transform.localPosition = camera.ScreenToWorldPoint(Input.mousePosition).XY().ToCell();
+		follower.shape.transform.localRotation = rotation;
 		follower.shape.radius = Mathf.Max(scale.x, scale.y) / 2;
 
 		Behavior.Loop<Cell.Transform>(t => t.Update());
